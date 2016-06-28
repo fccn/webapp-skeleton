@@ -1,18 +1,15 @@
 <?php
-#--- configuration file skeleton
-# create config.php file based on this one
-
-
 date_default_timezone_set('Europe/Lisbon');
 
 $fs_root = "/var/www";
-$full_url = "http://localhost";
+$full_url = "http://193.136.47.23:8082/";
 
 $c = array(
 
 #------ paths
   "install_path"    => $fs_root,
-  "base_path"       => "/webtut",
+  "base_path"       => "",
+  "assets_path"     => "/assets",
   "full_url" => $full_url,
   "default_css_url" => $full_url . "/css/embed.css",
 
@@ -53,13 +50,7 @@ $c = array(
   "locales"            => array(
                             array("label" => "GB", "locale" => "en_GB", "flag_alt" => "English flag", "language" => "English"),
                             array("label" => "PT", "locale" => "pt_PT", "flag_alt" => "Portuguese flag", "language" => "Português"),
-                            array("label" => "HU", "locale" => "hu_HU", "flag_alt" => "Hugarian flag", "language" => "Magyar"),
-                            array("label" => "NO", "locale" => "nb_NO", "flag_alt" => "Norwegian flag", "language" => "Norsk"),
-                            array("label" => "FR", "locale" => "fr_FR", "flag_alt" => "French flag", "language" => "Francaise"),
-                            array("label" => "ES", "locale" => "es_ES", "flag_alt" => "Spanish flag", "language" => "Espagñol"),
-                            array("label" => "DE", "locale" => "de_DE", "flag_alt" => "German flag", "language" => "Deutch"),
-                            array("label" => "NL", "locale" => "nl_NL", "flag_alt" => "Dutch flag", "language" => "Nederlands"),
-                            array("label" => "IT", "locale" => "it_IT", "flag_alt" => "Italian flag", "language" => "Italiano")
+                            #add other languages here....
                           ),
 
   "locale-textdomain"  => "messages",
