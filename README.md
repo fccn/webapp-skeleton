@@ -7,3 +7,8 @@ To create a basic Slim Micro PHP Framework with Twig, Idiorm and SAML2.
 1. Download composer.phar following the instructions on https://getcomposer.org/download/
 1. execute **./composer.phar update**
 1. start coding your app on **/app**
+1. Install **NodeJs**
+1. CentOS: **yum instal npm**
+1. Install grunt-cli **npm install -g grunt-cli**
+## Configure
+1. If you need debug info, set the environment variable "deploy_mode" to "development"

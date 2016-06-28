@@ -1,6 +1,8 @@
 <?php
 date_default_timezone_set('Europe/Lisbon');
 
+require '../app/config.php';
+
 // Start init files
 require '../app/bootstrap.php';
 

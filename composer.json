@@ -12,11 +12,11 @@
         "j4mie/idiorm": "^1.5",
         "monolog/monolog": "1.*",
         "components/jquery": "1.*",
-	"components/bootstrap" : "3.*",
-        "jswhetstone/twig-extension" : "dev-master",
+	 "components/bootstrap" : "3.*",
         "components/bootstrap-default": "^3.3",
         "php-console/php-console": "^3.1",
-        "ruflin/elastica": "^2.3"
+        "ruflin/elastica": "^2.3",
+        "jswhetstone/twig-extension": "dev-master"
     },
     "autoload": {
         "classmap": [
