@@ -19,8 +19,6 @@ class SiteConfig {
   		//Load config from user
   		include CONFIG_FILE;
 
-      $c["api_path"] = $c["backend_protocol"] . "://" . $c["backend_host"] . ":" . $c["backend_port"] . $c["backend_api_path"];
-
       SiteConfig::$instance = new self($c);
   	}
 

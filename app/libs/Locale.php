@@ -83,7 +83,7 @@ class Locale extends \Slim\Middleware
     $current_lang = Locale::getCurrentLang();
     
     $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path") . "/" . $current_lang . "/html/" . $id . ".html";
-    
+        
     return file_exists($filename);
   }
   

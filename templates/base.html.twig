@@ -48,9 +48,6 @@
 
 {% block body %}
 <body class="{{ getPageClasses() }}">
-{% block cookies %}
-{{ widget.cookieHeaderHTML(config) }}
-{% endblock %}
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar-static-top " role="navigation">
   <div class="container">
@@ -111,8 +108,7 @@
           </ul>
         </li>
           {% if ss.admin %}
-            <li class="navbar-right">
-              <a href="#" id="backendServerStatus"></a>
+            <li class="navbar-right">              
             </li>
           {% endif %}
         {% else %}
@@ -123,12 +119,17 @@
   </div>
 </nav>
 
+{% block cookies %}
+{{ widget.cookieHeaderHTML(config) }}
+{% endblock %}
+
 <!-- Begin page content -->
 {% block content %}
 <div class="container">
   {% block container %}
   <div class="page-header">
     <h1>{{ config.app_name }}</h1>
+    <p>{{ config.app_description }}</p>
   </div>
   {% endblock %}
 </div>
@@ -141,6 +142,10 @@
           <p class="col-xs-6">
             FCT|FCCN 2016
           </p>
+          <p class="col-xs-6 align-right">
+            <a href="{{ config.base_path }}/doc/help">{% trans "Help" %}</a> | 
+            <a href="{{ config.base_path }}/doc/credits">{% trans "Credits" %}</a>
+          </p> 
           <!-- additional footer content -->
         </p>
       </div>
@@ -159,33 +164,7 @@
 <script src="{{ config.base_path }}/js/app.js"></script>
 {{ widget.cookieHeaderJS }}
 {% block scripts %}{% endblock %}
-{% if config.google_analytics is defined %}
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', '{{ config.google_analytics }}', 'auto');
-ga('send', 'pageview');
-</script>
-{% endif %}
+{{ socialMedia.google_analytics_script(config) }}
 {% block admin_scripts %}
-{% if ss.admin %}
-<script>
-
-jQuery( document ).ready(function( $ ) {
-
-  $("#backendServerStatus").autoRefreshData("https://{{ config.backend_host }}:{{ config.backend_port }}/getVersion", 30000, function(data) {
-    console.log(data);
-    if (data.error == 1) {
-      $("#backendServerStatus").html("<span class='glyphicon glyphicon-remove-sign' style='color: red;'></span>");
-    } else {
-      $("#backendServerStatus").html("<span class='glyphicon glyphicon-ok-sign' style='color: green;'></span>");
-    }
-  });
-
-});
-</script>
-{% endif %}
 {% endblock %}
 </html>

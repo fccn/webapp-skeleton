@@ -8955,15 +8955,15 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 50px;
+  height: 60px;
   background-color: #f5f5f5;
 }
 /* ----------- Cookie frame ------------------- */
 .cookie_frame {
-  padding: 6px 10px;
+  padding: 10px 10px;
   color: white;
   background-color: gray;
-  margin: 10px;
+  margin: 0px;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -8976,4 +8976,7 @@ body {
 }
 .center {
   text-align: center;
+}
+.align-right {
+  text-align: right;
 }

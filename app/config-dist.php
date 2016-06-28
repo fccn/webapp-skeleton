@@ -12,15 +12,15 @@ $c = array(
 
 #------ paths
   "install_path"    => $fs_root,
-  "base_path"       => "/webtut",
+  "base_path"       => "/",
   "full_url" => $full_url,
   "default_css_url" => $full_url . "/css/embed.css",
 
 #------ email config
   "email_server_host" => "localhost",
   "email_server_port" => 25,
-  "email_from_address" => "rui.ribeiro@fccn.pt",
-  "email_from_name" => "Rui Ribeiro",
+  "email_from_address" => "service.manager@fccn.pt",
+  "email_from_name" => "Service Manager",
   "email_service_address" => "service@fccn.pt",
   "email_service_logo" => $fs_root . "/html/assets/ico/ms-icon-150x150.png",
   "email_message_top" => $fs_root . "/html/assets/imgs/top.png",
@@ -30,7 +30,7 @@ $c = array(
 
   "repeat-error-message" => 300, // Number of seconds before resending the send message
 
-  "admin_list" => array("rui.ribeiro@fccn.pt","paulo.costa@fccn.pt"),
+  "admin_list" => array("service@fccn.pt"),
 
 #------ application specific config
   "mode"            => "development", # production
@@ -42,9 +42,9 @@ $c = array(
 
 #------ database
   "db_host"         => "localhost",
-  "db_name"         => "webtut",
-  "db_username"     => "root",
-  "db_password"     => "fccn2015",
+  "db_name"         => "db_name",
+  "db_username"     => "db_user",
+  "db_password"     => "db_pass",
 
 #----- locale
   "defaultLocale"      => "en_GB",
@@ -53,13 +53,13 @@ $c = array(
   "locales"            => array(
                             array("label" => "GB", "locale" => "en_GB", "flag_alt" => "English flag", "language" => "English"),
                             array("label" => "PT", "locale" => "pt_PT", "flag_alt" => "Portuguese flag", "language" => "Português"),
-                            array("label" => "HU", "locale" => "hu_HU", "flag_alt" => "Hugarian flag", "language" => "Magyar"),
-                            array("label" => "NO", "locale" => "nb_NO", "flag_alt" => "Norwegian flag", "language" => "Norsk"),
-                            array("label" => "FR", "locale" => "fr_FR", "flag_alt" => "French flag", "language" => "Francaise"),
-                            array("label" => "ES", "locale" => "es_ES", "flag_alt" => "Spanish flag", "language" => "Espagñol"),
-                            array("label" => "DE", "locale" => "de_DE", "flag_alt" => "German flag", "language" => "Deutch"),
-                            array("label" => "NL", "locale" => "nl_NL", "flag_alt" => "Dutch flag", "language" => "Nederlands"),
-                            array("label" => "IT", "locale" => "it_IT", "flag_alt" => "Italian flag", "language" => "Italiano")
+#                           array("label" => "HU", "locale" => "hu_HU", "flag_alt" => "Hugarian flag", "language" => "Magyar"),
+#                           array("label" => "NO", "locale" => "nb_NO", "flag_alt" => "Norwegian flag", "language" => "Norsk"),
+#                           array("label" => "FR", "locale" => "fr_FR", "flag_alt" => "French flag", "language" => "Francaise"),
+#                           array("label" => "ES", "locale" => "es_ES", "flag_alt" => "Spanish flag", "language" => "Espagñol"),
+#                           array("label" => "DE", "locale" => "de_DE", "flag_alt" => "German flag", "language" => "Deutch"),
+#                           array("label" => "NL", "locale" => "nl_NL", "flag_alt" => "Dutch flag", "language" => "Nederlands"),
+#                           array("label" => "IT", "locale" => "it_IT", "flag_alt" => "Italian flag", "language" => "Italiano")
                           ),
 
   "locale-textdomain"  => "messages",
@@ -80,23 +80,9 @@ $c = array(
 		  "givenname"                   => array("mandatory" => 0, "regex" => "(.+)"),
   	),
 
-  "app-administrator-list" => array("rui.ribeiro@fccn.pt","paulo.costa@fccn.pt"),
+  "app-administrator-list" => array("service@fccn.pt"),
 
   "gethostbyaddr" => true,
 
-  "token_hash"    => "aslkdjf4oijlqwkejlakjdfkfugwiueyr",
-
-  #"backend_protocol"     => "https",
-  #"backend_host"         => "webrtc-hub.fccn.pt",
-  #"backend_port"         => 8095,
-  #"backend_peerjs_path"  => "/webtut",
-  #"backend_api_path"     => "/api",
-
-  #"stun_turn_rest_api_url" => "https://brain.lab.vvc.niif.hu/restapi/stun?",
-  #"stun_turn_rest_api_key" => "gnThM3sJJzAcMZyvn8nSyyLaFUXBrwPj",
-
-  #"callstats_app_id" => 107423264,
-  #"callstats_app_secret" => "zwBsiEKP3VSTjJQeWEjr9eE05VA=",
-
-  //"google_analytics" => "UA-74325233-1",
+  # "google_analytics" => "UA-XXXXXXXX-X",
 );

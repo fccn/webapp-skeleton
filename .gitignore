@@ -10,3 +10,4 @@ node_modules/**
 httpd/**
 app/config.php
 .remote-sync*
+html/assets/fonts
