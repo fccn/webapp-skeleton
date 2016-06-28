@@ -4,5 +4,9 @@ DEADJOE
 .*
 *~
 vendor/*
-logs/*
-httpd/*
+logs/**
+cache/**
+node_modules/**
+httpd/**
+app/config.php
+.remote-sync*

@@ -1,0 +1,59 @@
+/*
+Appplication specific stylesheet
+Custom Styles go in this file, bootstrap variables in bootstrap/variables.less
+*/
+@import '../vendor/components/bootstrap/less/bootstrap.less';
+@import '../vendor/components/font-awesome/less/font-awesome.less';
+@icon-font-path:  "../assets/fonts/";
+@fa-font-path:        "../assets/fonts";
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin top by navbar height */
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  background-color: white;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  background-color: #f5f5f5;
+}
+
+/* ----------- Cookie frame ------------------- */
+
+.cookie_frame {
+  padding: 6px 10px;
+  color: white;
+  background-color: gray;
+  margin: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cookie_frame .text {
+}
+
+.cookie_frame .buttons {
+  float: right;
+}
+
+/* --------- HELPERS --------------------- */
+
+.nopadding {
+  padding: 0;
+}
+
+.center {
+  text-align: center;
+}
