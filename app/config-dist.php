@@ -12,7 +12,8 @@ $c = array(
 
 #------ paths
   "install_path"    => $fs_root,
-  "base_path"       => "/",
+  "base_path"       => "",
+  "assets_path"     => "/assets",
   "full_url" => $full_url,
   "default_css_url" => $full_url . "/css/embed.css",
 
@@ -60,6 +61,7 @@ $c = array(
 #                           array("label" => "DE", "locale" => "de_DE", "flag_alt" => "German flag", "language" => "Deutch"),
 #                           array("label" => "NL", "locale" => "nl_NL", "flag_alt" => "Dutch flag", "language" => "Nederlands"),
 #                           array("label" => "IT", "locale" => "it_IT", "flag_alt" => "Italian flag", "language" => "Italiano")
+# add other languages here....
                           ),
 
   "locale-textdomain"  => "messages",
