@@ -11,24 +11,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:326
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:432
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:324
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:429
 msgid "Action"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:396
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:361
 msgid "Administrator"
-msgstr ""
-
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:296
-msgid "All Tut's"
 msgstr ""
 
 #: ../app/libs/WebMailer.php:45
 msgid "Cannot set or reset variable: "
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:667
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:271
+msgid "Check user"
+msgstr ""
+
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:664
 msgid "Close"
 msgstr ""
 
@@ -44,15 +44,23 @@ msgstr ""
 msgid "Could not instantiate mail function."
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:465
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:434
 msgid "Credits"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:117
+#: ../cache/db_dump.php:10
+msgid "Dutch flag"
+msgstr ""
+
+#: ../cache/db_dump.php:3
+msgid "English flag"
+msgstr ""
+
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:117
 msgid "False"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:428
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:425
 msgid "Features"
 msgstr ""
 
@@ -60,31 +68,47 @@ msgstr ""
 msgid "File Error: Could not open file: "
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:459
+#: ../cache/db_dump.php:7
+msgid "French flag"
+msgstr ""
+
+#: ../cache/db_dump.php:9
+msgid "German flag"
+msgstr ""
+
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:428
 msgid "Help"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:262
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:246
 msgid "Home"
+msgstr ""
+
+#: ../cache/db_dump.php:5
+msgid "Hugarian flag"
 msgstr ""
 
 #: ../app/libs/WebMailer.php:38
 msgid "Invalid address"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:309
+#: ../cache/db_dump.php:11
+msgid "Italian flag"
+msgstr ""
+
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:285
 msgid "Language"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:431
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:395
 msgid "Login"
 msgstr ""
 
-#: ../cache/18/189160ef2dfbb3b6af8165fe791a8c082af193c06f29b0c2e0bd08d3a47dc0a8.php:40
+#: ../cache/52/525a00cb09d247764f6a7597b3ec1144811bb53ff547756cec915849f9a9ba20.php:40
 msgid "Login Failed"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:408
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:373
 msgid "Logout"
 msgstr ""
 
@@ -96,48 +120,51 @@ msgstr ""
 msgid "Message body empty"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:520
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:524
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:517
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:521
 msgid "More about..."
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:318
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:316
 msgid "Must Authenticate"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:288
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:380
-msgid "My Tut's"
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:263
+msgid "New user"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:279
-msgid "New WebTut"
+#: ../cache/db_dump.php:6
+msgid "Norwegian flag"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:528
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:525
 msgid "OK, I ACCEPT"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:658
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:655
 msgid "Ok"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:530
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:527
 msgid "Ok, I accept"
 msgstr ""
 
-#: ../cache/18/189160ef2dfbb3b6af8165fe791a8c082af193c06f29b0c2e0bd08d3a47dc0a8.php:32
-#: ../cache/aa/aafd86d1cd12af1d7bf2c984feaecf8371919983ff8173c5848a6d62fe147e85.php:32
-#: ../cache/aa/aafd86d1cd12af1d7bf2c984feaecf8371919983ff8173c5848a6d62fe147e85.php:40
+#: ../cache/2c/2c3464e602575facd3525a875d9a72e52bb6153ef80a7daf71bdf33a1504285c.php:32
+#: ../cache/2c/2c3464e602575facd3525a875d9a72e52bb6153ef80a7daf71bdf33a1504285c.php:40
+#: ../cache/52/525a00cb09d247764f6a7597b3ec1144811bb53ff547756cec915849f9a9ba20.php:32
 msgid "Page Not Found"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:369
+#: ../cache/db_dump.php:4
+msgid "Portuguese flag"
+msgstr ""
+
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:345
 msgid "Profile"
 msgstr ""
 
-#: ../cache/18/189160ef2dfbb3b6af8165fe791a8c082af193c06f29b0c2e0bd08d3a47dc0a8.php:50
-#: ../cache/aa/aafd86d1cd12af1d7bf2c984feaecf8371919983ff8173c5848a6d62fe147e85.php:50
+#: ../cache/2c/2c3464e602575facd3525a875d9a72e52bb6153ef80a7daf71bdf33a1504285c.php:50
+#: ../cache/52/525a00cb09d247764f6a7597b3ec1144811bb53ff547756cec915849f9a9ba20.php:50
 msgid "Return to Home Page"
 msgstr ""
 
@@ -169,12 +196,16 @@ msgstr ""
 msgid "Signing Error: "
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:310
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:420
+#: ../cache/db_dump.php:8
+msgid "Spanish flag"
+msgstr ""
+
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:308
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:417
 msgid "State"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:535
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:532
 msgid ""
 "The cookies help us to offer this service. By using this service, you accept "
 "the usage of cookies."
@@ -184,12 +215,12 @@ msgstr ""
 msgid "The following From address failed: "
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:314
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:424
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:312
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:421
 msgid "Title"
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:111
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:111
 msgid "True"
 msgstr ""
 
@@ -197,14 +228,18 @@ msgstr ""
 msgid "Unknown encoding: "
 msgstr ""
 
-#: ../cache/ea/eaee276622610a25134a1a262e304da8f82f0ea3632b8d609718c5268d47ded7.php:322
-msgid "Visible to All"
+#: ../cache/4f/4f3b9d79d8a97e61f0e7cb44d910a2bee50a593a1774381979ee82d7cc9c86f5.php:254
+msgid "Users"
 msgstr ""
 
-#: ../cache/59/59830e6787da84437a9dfd79637b6d524a341e1fe311c7ef4509ae30ec262e50.php:270
-msgid "WebTUT"
+#: ../cache/68/6815c49ce1fb533ff8d2f9def05c40cb2ca6ea853cfc19e0eb57025eb6a42b48.php:320
+msgid "Visible to All"
 msgstr ""
 
 #: ../app/libs/WebMailer.php:40
 msgid "You must provide at least one recipient email address."
+msgstr ""
+
+#: ../cache/db_dump.php:2
+msgid "anonymous"
 msgstr ""

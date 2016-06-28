@@ -53,33 +53,7 @@
   $php =fopen("../cache/db_dump.php", "w");
   fprintf($php, "<?php\n");
 
-  $sessionMessageTypes = Model::factory("SessionMessageType")->find_many();
-  foreach($sessionMessageTypes as $sessionMessageType) {
-    fprintf($php, "\$a = _('" . $sessionMessageType->name . "');\n");
-  }
-
-  $meetingStates = Model::factory("meetingState")->find_many();
-  foreach($meetingStates as $meetingState) {
-    fprintf($php, "\$a = _('" . $meetingState->name . "');\n");
-  }
-  
-  $queueStates = Model::factory("queueState")->find_many();
-  foreach($queueStates as $queueState) {
-    fprintf($php, "\$a = _('" . $queueState->name . "');\n");
-  }
-  
-  $sessionQueueStrategies = Model::factory("sessionQueueStrategy")->find_many();
-  foreach($sessionQueueStrategies as $sessionQueueStrategy) {
-    fprintf($php, "\$a = _('" . $sessionQueueStrategy->name . "');\n");
-  }   
-  
   fprintf($php, "\$a = _('anonymous');\n");
-  
-  # /webtut/models/Session.pg - session dynamic current states
-  $as = [ "waiting", "closed", "deserted", "undefined" ];
-  foreach($as as $a) {
-    fprintf($php, "\$a = _('" . $a . "');\n");
-  }   
 
   # Iterates thru all the locales
   foreach(SiteConfig::getInstance()->get("locales") as $a) {

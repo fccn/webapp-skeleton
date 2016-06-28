@@ -65,8 +65,8 @@
         <li class="dropdown {{ getActiveClass('/user') }} navbar-left">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Users" %}<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li class="{{ getActiveClass('/user/new') }}"><a href="{{ config.base_path }}/tut/new/">{% trans "New user" %}</a></li>
-            <li class="{{ getActiveClass('/user/check') }}"><a href="{{ config.base_path }}/tut/my/">{% trans "Check user" %}</a></li>
+            <li class="{{ getActiveClass('/user/new') }}"><a href="{{ config.base_path }}/utils/user/new">{% trans "New user" %}</a></li>
+            <li class="{{ getActiveClass('/user/check') }}"><a href="{{ config.base_path }}/utils/user/check">{% trans "Check user" %}</a></li>
           </ul>
         </li>
         <!-- additional left menu items -->
@@ -90,10 +90,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ ss.friendlyName }}<b class="caret"></b></a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownLanguageMenu">
             <li role="presentation" id="userProfile" class="{{ getActiveClass('/profile/me') }}">
-              <a role="menuitem" href='{{ config.base_path }}/profile/me'>{% trans "Profile" %}</a>
-            </li>
-            <li role="presentation" id="userTuts" class="{{ getActiveClass('/tut/my') }}">
-              <a role="menuitem" href='{{ config.base_path }}/tut/my'>{% trans "My Tut's" %}</a>
+              <a role="menuitem" href='{{ config.base_path }}/utils/user/me'>{% trans "Profile" %}</a>
             </li>
             {% if ss.admin %}
             <li role="separator" class="divider"></li>

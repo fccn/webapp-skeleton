@@ -18,6 +18,7 @@ all: $(CACHE_UPDATED) $(MO_FILES)
 $(CACHE_UPDATED): $(PHP_FILES)
 	@echo Rebuilding cache
 	touch $(CACHE_UPDATED)
+	$(shell mkdir -p $(CACHE_DIR))
 	$(shell rm -rf $(CACHE_DIR); mkdir $(CACHE_DIR); chown -R $(HTTPD_USER_AND_GROUP) $(CACHE_DIR); php $(UTILS_PATH)/make_php_cache_files.php; chown -R $(HTTPD_USER_AND_GROUP) $(CACHE_DIR))
 
 clean:
