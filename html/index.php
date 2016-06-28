@@ -1,6 +1,6 @@
 <?php
-date_default_timezone_set('Europe/Lisbon');
 
+// Update config
 require '../app/config.php';
 
 // Start init files
@@ -12,5 +12,6 @@ require '../app/database.php';
 // Route
 require '../app/routes.php';
 
-
 $app->run();
+
+
