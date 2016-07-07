@@ -14,6 +14,10 @@ $app->group('/utils', function() use ($app) {
     require_once "routes/utils.php";
 });
 
+$app->group('/admin', function() use ($app) {
+    require_once "routes/admin.php";
+});
+
 //---- API requests
 function APIrequest(){
         $app = \Slim\Slim::getInstance();

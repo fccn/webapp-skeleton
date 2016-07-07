@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Check users" %}{% endblock %}
+{% block container %}
+  <h1>{% trans "Check users" %}</h1>
+  <form class="form-inline" method="post" action="check">
+  <fieldset>
+
+    <!-- Form Name -->
+    <legend>{% trans "Check if a user exits" %}</legend>
+    <div class="row">
+      <!-- Text input-->
+      <div class="form-group col-md-8 col-sm-6">
+        <label class="sr-only" for="userinfo">{% trans "User identification" %}</label>
+        <input id="title" name="userinfo" type="text" style="width: 100%;" placeholder="{% trans "User name or email" %}" class="form-control input-md" required="" value="{{ userinfo }}">
+        <span class="help-block">{% trans "provide user email or name" %}</span>
+      </div>
+      <!-- Exact match selection -->
+      <div class="checkbox-inline col-sm-2">
+        <label>
+          <input type="checkbox" name="is_exact" aria-label="{% trans "Exact match" %}" {% if is_exact == 'on' %} checked="checked" {% endif %} >
+          {% trans "Exact match" %}
+        </label>
+      </div>
+      <!-- Submit button -->
+      <div class="form-group col-md-2 col-sm-4">
+        <button type="submit" class="btn btn-primary">{% trans "Search for user" %}</button>
+      </div>
+    </div>
+  </fieldset>
+  </form>
+  {% if userlist is defined %}
+    <hr/>
+    {% if userlist %}
+      <p>{% trans "The search returned the following matches:" %}</p>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Email" %}</th>
+            <th>{% trans "Created at" %}</th>
+            <th>{% trans "Last logged in" %}</th>
+            <th>{% trans "In session" %}</th>
+            <th>{% trans "Session count" %}</th>
+            <th>{% trans "Locale" %}</th>
+          </tr>
+        </thead>
+        {% for user in userlist %}
+        {% set in_session = user.in_session ? 'yes' : 'no' %}
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.created_at }}</td>
+          <td>{{ user.last_login }}</td>
+          <td>{% trans in_session %}</td>
+          <td>{{ user.session_count }}</td>
+          <td>{{ user.locale }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-warning" role="alert">{% trans "No users found" %}</div>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}

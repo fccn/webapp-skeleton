@@ -92,19 +92,19 @@ class SAMLSession extends \Slim\Middleware
         $user = \Model::factory('User')->create();
         $user->email = $this->getEmail();
         $user->name = $this->getFriendlyName();
-        $user->localUser = 0;
-        $user->sessionCount = 0;
-        $user->authSource = $this->getAuthSourceId();
-        $user->createdAt = date( 'Y-m-d H:i:s', time() );
+        $user->localuser = 0;
+        $user->session_count = 0;
+        $user->auth_source = $this->getAuthSourceId();
+        $user->created_at = date( 'Y-m-d H:i:s', time() );
       } else {
-        $already_authenticated = $user->inSession;
+        $already_authenticated = $user->in_session;
       }
 
       if ($already_authenticated == false) {
         $user->locale = Locale::getCurrentLang();
-        $user->lastLogin = date( 'Y-m-d H:i:s', time() );
-        $user->inSession = true;
-        $user->sessionCount++;
+        $user->last_login = date( 'Y-m-d H:i:s', time() );
+        $user->in_session = true;
+        $user->session_count++;
         $user->save();
 
         AppLog("login", $user);
@@ -134,7 +134,6 @@ class SAMLSession extends \Slim\Middleware
   }
 
   public function hasMinimumAttributes() {
-
   	$result = true;
 
   	foreach($this->getAllExpectedAttributes() as $attribute => $params) {

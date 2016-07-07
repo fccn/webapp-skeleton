@@ -46,6 +46,7 @@ $c = array(
   "db_name"         => "db_name",
   "db_username"     => "db_user",
   "db_password"     => "db_pass",
+  "db_kind"         => "mysql",
 
 #----- locale
   "defaultLocale"      => "en_GB",

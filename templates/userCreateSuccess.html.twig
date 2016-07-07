@@ -1,0 +1,9 @@
+{% import "widgets.html.twig" as widget %}
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Create local user" %}{% endblock %}
+{% block container %}
+    <h1>{% trans "Created a new user" %}</h1>
+    <div>
+    {{ widget.table(user_data) }}
+    </div>
+{% endblock %}

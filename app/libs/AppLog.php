@@ -10,7 +10,15 @@ function AppLog($label, $object, $param = null)
     $log = Model::factory('AppLog')->create();
     $log->label = $label;
     $log->timestamp = date( 'Y-m-d H:i:s', time() );
-    $log->logEntityType_id = Model::factory('LogEntityType')->where("label", $objectClassName)->find_one()->get("id");
+    $entityType = Model::factory('LogEntityType')->where("label", $objectClassName)->find_one();
+    if(empty($entityType)){
+      //create new entity type
+      $entity = Model::factory('LogEntityType')->create();
+      $entity->label = $objectClassName;
+      $entity->save();
+      $entityType = Model::factory('LogEntityType')->where("label", $objectClassName)->find_one();
+    }
+    $log->log_entity_type_id = $entityType->get("id");
 
     if ($objectClassName != "Null") {
       $log->entity = json_encode($object->as_array());

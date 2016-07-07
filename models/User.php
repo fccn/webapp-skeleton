@@ -1,8 +1,6 @@
 <?php
 
 class User extends Model {
-
-	protected $table = "users";
-	public $timestamps = false;
-
+	public static $_table = 'user';
+  public static $_id_column = 'id';
 }

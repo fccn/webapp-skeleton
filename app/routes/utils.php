@@ -17,7 +17,6 @@ $app->get('/setlang/:lang', function ($lang) use ($app) {
 $app->get('/login', function () use ($app) {
 
   $session = Libs\SAMLSession::getInstance(true);
-
   if ($session->isAuthenticated()) {
     $app->redirect(\SiteConfig::getInstance()->get("base_path") . '/');
   } else
@@ -35,7 +34,7 @@ $app->get('/logout', function () use ($app) {
     $user = Model::factory('User')->where('email',$session->getEmail())->find_one();
 
     if (($user != false) && (get_class($user) == "User")) {
-      $user->inSession = false;
+      $user->in_session = false;
       $user->save();
       AppLog("logout", $user);
     }
@@ -48,6 +47,12 @@ $app->get('/logout', function () use ($app) {
 
 $app->get('/css', function () use ($app) {
   $app->redirect(\SiteConfig::getInstance()->get("base_path") . "/assets/css");
+});
+
+//--- user specific utilities
+
+$app->group('/user', function() use ($app) {
+  require_once "users.php";
 });
 
 //add application specific utilities here -----

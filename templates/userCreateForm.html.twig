@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Create local user" %}{% endblock %}
+{% block container %}
+  <h1>{% trans "Create a new user" %}</h1>
+  <form class="form-horizontal" method="post" action="create">
+  <fieldset>
+    <!-- Form Name -->
+    <legend>{% trans "Set the new user properties" %}</legend>
+    <!-- name -->
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">{% trans "Name" %}</label>
+        <div class="col-sm-10">
+          <input id="name" name="name" type="text" placeholder="{% trans "name" %}" class="form-control input-md" required="" value="{{ name }}">
+        </div>
+    </div>
+    <!-- email -->
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">{% trans "Email" %}</label>
+        <div class="col-sm-10">
+          <input id="email" name="email" type="text" placeholder="email@service.domain" class="form-control input-md" required="" value="{{ email }}">
+          {% if user_exists %}
+          <p class="help-block bg-danger">{% trans "The provided email is already associated to a user. Please use a different email address" %}</p>
+          {% endif %}
+        </div>
+    </div>
+    <!-- Submit button -->
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">{% trans "Create user" %}</button>
+      </div>
+    </div>
+  </fieldset>
+  </form>
+
+{% endblock %}
+{% block scripts %}
+<script>
+</script>
+{% endblock %}
