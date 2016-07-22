@@ -62,13 +62,6 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="{{ getActiveClass('') }} navbar-left"><a href="{{ config.base_path }}/">{% trans "Home" %}</a></li>
-        <li class="dropdown {{ getActiveClass('/user') }} navbar-left">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Users" %}<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li class="{{ getActiveClass('/user/create') }}"><a href="{{ config.base_path }}/utils/user/create">{% trans "New user" %}</a></li>
-            <li class="{{ getActiveClass('/user/check') }}"><a href="{{ config.base_path }}/utils/user/check">{% trans "Check user" %}</a></li>
-          </ul>
-        </li>
         <!-- additional left menu items -->
       </ul>
       <ul class="nav navbar-nav pull-right">
@@ -104,10 +97,15 @@
             </li>
           </ul>
         </li>
-          {% if ss.admin %}
-            <li class="navbar-right">
-            </li>
-          {% endif %}
+        {% if ss.admin %}
+        <li class="dropdown {{ getActiveClass('/user') }} navbar-right">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Users" %}<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li class="{{ getActiveClass('/user/create') }}"><a href="{{ config.base_path }}/utils/user/create">{% trans "New user" %}</a></li>
+            <li class="{{ getActiveClass('/user/check') }}"><a href="{{ config.base_path }}/utils/user/check">{% trans "Check user" %}</a></li>
+          </ul>
+        </li>
+        {% endif %}
         {% else %}
         <li class="{{ getActiveClass('/utils/login') }} navbar-right"><a href="{{ config.base_path }}/utils/login">{% trans "Login" %}</a></li>
         {% endif %}

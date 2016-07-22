@@ -65,6 +65,14 @@ $app->notFound(function () use ($app) {
     'message' => \Libs\Locale::getHtmlContent("error_404")]);
 });
 
+/*
+$app->notAllowed(function () use ($app) {
+
+    $app->render('405.html.twig', [
+    'message' => \Libs\Locale::getHtmlContent("error_405")]);
+});
+*/
+
 // Handle Locale Cookie
 $app->add(new Libs\Locale());
 $app->add(new Libs\SAMLSession());

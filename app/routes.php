@@ -18,8 +18,15 @@ $app->group('/admin', function() use ($app) {
     require_once "routes/admin.php";
 });
 
-//---- API requests
+//---- Redirects
+function sendToUnauthorized(){
+  $app = \Slim\Slim::getInstance();
+  $app->render('405.html.twig', [
+    'message' => \Libs\Locale::getHtmlContent("error_405")]);
+}
+
 function APIrequest(){
+//---- API requests
         $app = \Slim\Slim::getInstance();
 
         $app->view(new \JsonApiView());
