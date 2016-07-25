@@ -14,10 +14,17 @@ $c = array(
   "install_path"    => $fs_root,
   "base_path"       => "",
   "assets_path"     => "/assets",
+  "locale_path" => "locale",
   "full_url" => $full_url,
   "default_css_url" => $full_url . "/css/embed.css",
 
+#------ application logfile
+  "logfile_path"   => $fs_root."/logs/application.log",
+  "logfile_level"   => "WARNING",
+
+
 #------ email config
+  "email_send_function" => "SMTP",
   "email_server_host" => "localhost",
   "email_server_port" => 25,
   "email_from_address" => "service.manager@fccn.pt",
@@ -28,6 +35,7 @@ $c = array(
   "email_message_bottom" => $fs_root . "/html/assets/imgs/bottom.png",
   "email_message_spacer" => $fs_root . "/html/assets/imgs/spacer.png",
   "email_subject_prefix" => "Service: ",
+  "email_msg_templates" => ['General'],
 
   "repeat-error-message" => 300, // Number of seconds before resending the send message
 

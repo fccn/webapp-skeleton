@@ -4,40 +4,40 @@ namespace Libs;
 
 class Locale extends \Slim\Middleware
 {
-  
+
   static public function getLocaleFromLabel($label) {
- 
+
     foreach(\SiteConfig::getInstance()->get("locales") as $locale) {
       if (strtoupper($label) == strtoupper($locale["label"])) {
         return $locale["locale"];
       }
     }
-  
+
     return \SiteConfig::getInstance()->get("defaultLocale");
   }
 
   static public function getLabelFromLocale($localeX) {
-    
+
     foreach(\SiteConfig::getInstance()->get("locales") as $locale) {
       if (strtoupper($localeX) == strtoupper($locale["locale"])) {
         return $locale["label"];
       }
     }
-    
+
     return self::getLabelFromLocale(\SiteConfig::getInstance()->get("defaultLocaleLabel"));
   }
-  
+
   public function call()
-  {    
-    $app = \Slim\Slim::getInstance();    
+  {
+    $app = \Slim\Slim::getInstance();
     $current_lang = $this::getCurrentLang();
-            
+
     // Set language to Current Language
     putenv('LANG=' . $current_lang . ".utf8");
     setlocale(LC_MESSAGES, $current_lang);
 
     // Specify the location of the translation tables
-    bindtextdomain(\SiteConfig::getInstance()->get("locale-textdomain"), \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path"));
+    bindtextdomain(\SiteConfig::getInstance()->get("locale-textdomain"), \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale_path"));
     bind_textdomain_codeset(\SiteConfig::getInstance()->get("locale-textdomain"), 'UTF-8');
 
     // Choose domain
@@ -49,12 +49,12 @@ class Locale extends \Slim\Middleware
 
     $this->next->call();
   }
-  
+
   static public function getCurrentLang()
   {
-    $app = \Slim\Slim::getInstance();    
+    $app = \Slim\Slim::getInstance();
     $current_lang = $app->getCookie(\SiteConfig::getInstance()->get("locale-cookie-name"));
-    
+
     if ($current_lang == "") {
 
       $defaultLocaleLabel = null;
@@ -66,34 +66,34 @@ class Locale extends \Slim\Middleware
             $defaultLocaleLabel = $labelFromHTTP;
           }
         }
-      } 
+      }
 
       if ($defaultLocaleLabel == null) {
         $defaultLocaleLabel = \SiteConfig::getInstance()->get("defaultLocaleLabel");
       }
-      $current_lang = Locale::getLocaleFromLabel($defaultLocaleLabel);      
+      $current_lang = Locale::getLocaleFromLabel($defaultLocaleLabel);
     }
-    
+
     return $current_lang;
   }
-  
+
   static public function existsHtmlContent($id)
   {
-    $app = \Slim\Slim::getInstance();    
+    $app = \Slim\Slim::getInstance();
     $current_lang = Locale::getCurrentLang();
-    
-    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path") . "/" . $current_lang . "/html/" . $id . ".html";
-        
+
+    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale_path") . "/" . $current_lang . "/html/" . $id . ".html";
+
     return file_exists($filename);
   }
-  
+
   static public function getHtmlContent($id)
   {
-    $app = \Slim\Slim::getInstance();    
+    $app = \Slim\Slim::getInstance();
     $current_lang = Locale::getCurrentLang();
-    
-    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path") . "/" . $current_lang . "/html/" . $id . ".html";
-    
+
+    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale_path") . "/" . $current_lang . "/html/" . $id . ".html";
+
     if (file_exists($filename)) {
       return file_get_contents($filename);
     } else {
@@ -104,29 +104,30 @@ class Locale extends \Slim\Middleware
 
   static public function existsFileContent($id)
   {
-    $app = \Slim\Slim::getInstance();    
+    $app = \Slim\Slim::getInstance();
     $current_lang = Locale::getCurrentLang();
-    
-    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path") . "/" . $current_lang . "/files/" . $id . ".txt";
-    
+
+    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale_path") . "/" . $current_lang . "/files/" . $id . ".txt";
+
     return file_exists($filename);
-  }  
+  }
 
   static public function getFileContent($id)
   {
-    $app = \Slim\Slim::getInstance();    
+    $app = \Slim\Slim::getInstance();
     $current_lang = Locale::getCurrentLang();
-    
-    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale-path") . "/" . $current_lang . "/files/" . $id . ".txt";
-    
+
+    $filename = \SiteConfig::getInstance()->get("install_path") . "/" . \SiteConfig::getInstance()->get("locale_path") . "/" . $current_lang . "/files/" . $id . ".txt";
+
     if (file_exists($filename)) {
       return file_get_contents($filename);
     } else {
       AppLog("file-not-found", null, null, null, null, "File: $filename");
+      \FileLogger::error("getFileContent::file-not-found - $filename");
       return ""; //_("File not found:") . " " . $filename;
     }
-  }  
-    
+  }
+
   static public function processFile($tag, $replace_by = null)
   {
     $return_file = self::getFileContent($tag);
@@ -136,6 +137,5 @@ class Locale extends \Slim\Middleware
 
     return $return_file;
   }
-  
-}
 
+}

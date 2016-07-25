@@ -97,6 +97,16 @@
             </li>
           </ul>
         </li>
+        {% if getActiveClass('/admin') %}
+          <li class="dropdown {{ getActiveClass('/admin') }} navbar-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Admin" %}<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ config.base_path }}/admin">{% trans "Administration" %}</a></li>
+              <li class="{{ getActiveClass('/admin/sysinfo') }}"><a href="{{ config.base_path }}/admin/sysinfo">{% trans "System info" %}</a></li>
+              <li class="{{ getActiveClass('/admin/sendmail') }}"><a href="{{ config.base_path }}/admin/sendmail">{% trans "Send email" %}</a></li>
+            </ul>
+          </li>
+        {% endif %}
         {% if ss.admin %}
         <li class="dropdown {{ getActiveClass('/user') }} navbar-right">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Users" %}<b class="caret"></b></a>

@@ -4,20 +4,15 @@
 
   	public function __construct()
   	{
-  	  $MTA = "SMTP";
-
-  	  if (getenv("APPLICATION_SUB_ENVIRONMENT") == "racr") {
-  	  	$MTA = "Mail";
-  	  }
+  	  $MTA = \SiteConfig::getInstance()->get('email_send_function');
 
   	  if ($MTA == "SMTP") {
   	    $this->isSMTP(); // Set mailer to use SMTP
   	    $this->Host = \SiteConfig::getInstance()->get ( 'email_server_host' ); // Specify main SMTP server host
   	    $this->Port = \SiteConfig::getInstance()->get ( 'email_server_port' ); // Specify main SMTP server port
   	  }
-
-  	  if ($MTA == "Mail") {
-  	    $this->isMail(); // Set mailer to use SMTP
+  	  if ($MTA == "MAIL") {
+  	    $this->isMail(); // use mail function
   	  }
 
   	  $this->setFrom(\SiteConfig::getInstance()->get ('email_from_address'), \SiteConfig::getInstance()->get ('email_from_name'));
@@ -79,11 +74,12 @@
   		return $result;
   	}
 
-  	public function ConstructBrandedMessage($message, $text_message = null)
+  	public function constructBrandedMessage($message, $text_message = null, $template = 'general')
   	{
   		if ($text_message == null) {
   		  $text_message = 	$this->strip_html($message);
   		}
+      \FileLogger::debug("message: $message :: text message: $text_message");
 
   		$message_vars = array (
   		  "{subject}"        => $this->Subject,
@@ -94,8 +90,12 @@
         "{year}" => date("Y")
   		);
 
-  		$plain_text = \Libs\Locale::processFile("mail_message_template_text", $message_vars );
-  		$html_text = \Libs\Locale::processFile("mail_message_template_html", $message_vars );
+      $plain_msg_template = "mail_message_template_".$template."_text";
+      $html_msg_template = "mail_message_template_".$template."_html";
+      //TODO check if templates exist, if not fall back to general
+
+  		$plain_text = \Libs\Locale::processFile($plain_msg_template, $message_vars );
+  		$html_text = \Libs\Locale::processFile($html_msg_template, $message_vars );
 
         // Don't enable this again... Adds strange '!\n' to message
   		// $html_text = preg_replace('!\s+!', ' ', $html_text);
@@ -108,10 +108,57 @@
   		$this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_top' ), 'top');
   		$this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_bottom' ), 'bottom');
       $this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_spacer' ), 'spacer');
-      
+
   		$this->Body = $html_text;
   		$this->AltBody = $plain_text;
   	}
+
+
+    private function isValidEmailAddress($email){
+      return !(filter_var( $email, FILTER_VALIDATE_EMAIL ) === false);
+    }
+
+    public function sendTo($emails_to, $emails_bcc = ''){
+      //prepare destination emails
+      $emails_to = str_replace([',',';',"\n"],";",trim($emails_to));
+      $emails_bcc = str_replace([',',';',"\n"],";",trim($emails_bcc));
+      $to_arr = explode ( ";", $emails_to );
+      $bcc_arr = explode ( ";", $emails_bcc );
+      $messages = array(
+        "invalid" => array(),
+        "status" => ''
+      );
+      #add to mails
+      foreach ( $to_arr as $email ) {
+        \FileLogger::debug('Checking TO mail address: '.$email);
+        if($this->isValidEmailAddress($email)) {
+          $this->addAddress ( $email );
+        }elseif (!empty($email)) {
+          \FileLogger::error('invalid email address: '.$email);
+          array_push($messages['invalid'],$email);
+        }
+      }
+      #add bcc mails
+      foreach ( $bcc_arr as $email ) {
+        \FileLogger::debug('Checking BCC mail address: '.$email);
+      	if($this->isValidEmailAddress($email)) {
+          $this->addBCC ( $email );
+        }elseif (!empty($email)) {
+          \FileLogger::error('invalid email address: '.$email);
+          array_push($messages['invalid'],$email);
+        }
+      }
+      \FileLogger::debug("sending message TO <$emails_to>, BCC: <$bcc>, subject: $this->Subject");
+      #try sending
+      if ($this->send ()) {
+      	$messages['status'] = "ok";
+      } else {
+        $messages['status'] = "error";
+        $messages["errorInfo"] = $this->ErrorInfo;
+      }
+
+      return $messages;
+    }
 
   	public function SendToAdmin($more_emails = null)
   	{

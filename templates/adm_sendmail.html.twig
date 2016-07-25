@@ -1,0 +1,111 @@
+{% import "widgets.html.twig" as widget %}
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Send service email" %}{% endblock %}
+{% block container %}
+<h1>{% trans "Send a message" %}</h1>
+<form class="form-horizontal" method="post" action="sendmail">
+<fieldset>
+  <!-- Form Name -->
+  <legend>{% trans "Send a service mail message" %}</legend>
+  {% if status %}
+    {% if status['invalid'] and status['status'] == 'ok'%}
+      <div class="alert alert-warning">
+        <p>{% trans "Message successfully sent to all email addresses except for the following, that were considered invalid" %}:</p>
+        <ul>
+          {% for email in status['invalid'] %}
+            <li>{{ email }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% elseif status['invalid'] and status['status'] == 'error' %}
+        <div class="alert alert-danger">
+          <p>{% trans "Message was not sent due to the following error" %}:</p>
+          {% if status['errorInfo'] %}
+            <p>{{ status['errorInfo'] }}</p>
+          {% else %}
+            <p>{% trans "Unknown error" %}</p>
+          {% endif %}
+          <br>
+          <p>{% trans "The following email addresses were also considered invalid" %}:</p>
+          <ul>
+            {% for email in status['invalid'] %}
+              <li>{{ email }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% elseif status['status'] == 'ok'%}
+      <div class="alert alert-success">
+        {% trans "Message successfully sent to all email addresses" %}
+      </div>
+    {% elseif status['status'] == 'error'%}
+      <div class="alert alert-danger">
+        <p>{% trans "Message was not sent due to the following error" %}:</p>
+        {% if status['errorInfo'] %}
+          <p>{{ status['errorInfo'] }}</p>
+        {% else %}
+          <p>{% trans "Unknown error" %}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+  <div class="form-group">
+      <!-- from field -->
+      <label for="from" class="col-md-1 col-sm-2 control-label">{% trans "From" %}:</label>
+      <div class="col-md-5 col-sm-4">
+        <input id="from" name="from" type="text" placeholder="{{ from }}" class="form-control input-md" disabled>
+      </div>
+
+      <!-- message template -->
+      <label for="template" class="col-md-2 col-sm-2 control-label">{% trans "Message template" %}</label>
+      <div class="col-md-4 col-sm-4">
+        <select id="template" name="template" class="form-control">
+          {% for template in msg_templates %}
+            <option value="{{ template }}">{% trans template %}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+  </div>
+
+  <div class="form-group">
+    <!-- to field -->
+    <label for="to" class="col-md-1 col-sm-2 control-label">{% trans "To" %}:</label>
+    <div class="col-md-5">
+      <textarea id="to" name="to" rows="5" placeholder="{% trans "send to" %}" class="form-control input-md">{{ to }}</textarea>
+    </div>
+
+    <!-- bcc field -->
+    <label for="bcc" class="col-md-1 col-sm-2 control-label">{% trans "Bcc" %}:</label>
+    <div class="col-md-5">
+      <textarea id="bcc" name="bcc" rows="5" placeholder="{% trans "send to bcc" %}" class="form-control input-md">{{ bcc }}</textarea>
+    </div>
+  </div>
+
+  <!-- subject field -->
+  <div class="form-group">
+    <label for="subject" class="col-sm-2 col-md-1 control-label">{% trans "Subject" %}:</label>
+    <div class="col-sm-10 col-md-11">
+      <input id="subject" name="subject" type="text" placeholder="{% trans "message subject" %}" class="form-control input-md" value="{{ subject }}">
+    </div>
+  </div>
+
+  <!-- message body field -->
+  <div class="form-group">
+    <label for="msgbody" class="col-sm-2 col-md-1 control-label">{% trans "Message body" %}:</label>
+    <div class="col-sm-10 col-md-11">
+      <textarea id="msgbody" name="msgbody" rows="10" placeholder="{% trans "message body" %}" class="form-control input-md">{{ msgbody }}</textarea>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-5 col-md-offset-1 col-md-5">
+      <button type="submit" class="btn btn-primary">{% trans "Send email" %}</button>
+    </div>
+    <div class="col-sm-5 col-md-6">
+      <button type="submit" class="btn btn-default pull-right">{% trans "Back" %}</button>
+    </div>
+  </div>
+</fieldset>
+</form>
+{% endblock %}
