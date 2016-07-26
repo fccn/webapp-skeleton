@@ -1,0 +1,11 @@
+{% import "widgets.html.twig" as widget %}
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Administration" %}{% endblock %}
+{% block container %}
+  <h1>{% trans "Application config file" %}</h1>
+  <br>
+  <div>
+    {{ widget.table(config) }}
+  </div>
+  <a href="{{ config.base_path }}/admin">{% trans "Return to Admin" %}</a>
+{% endblock %}

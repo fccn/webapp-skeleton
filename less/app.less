@@ -6,6 +6,10 @@ Custom Styles go in this file, bootstrap variables in bootstrap/variables.less
 @import '../vendor/components/font-awesome/less/font-awesome.less';
 @icon-font-path:  "../assets/fonts/";
 @fa-font-path:        "../assets/fonts";
+@color_nav_p: #f8f8f8;
+@color_nav_s: #e7e7e7;
+@color_footer_p: @color_nav_p;
+@color_footer_s: @color_nav_s;
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -27,7 +31,14 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5;
+  background-color: @color_footer_p;
+  border-top: 1px solid @color_nav_s;
+}
+
+
+.navbar-default {
+  background-color: @color_nav_p;
+  border-color: @color_nav_s;
 }
 
 /* ----------- Cookie frame ------------------- */

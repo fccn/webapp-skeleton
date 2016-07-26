@@ -5,6 +5,18 @@ $app->get('/', function () use ($app) {
     $ss = Libs\SAMLSession::getInstance();
 
     if ($ss->isAdmin()) {
+        $app->render('admin.html.twig',[]);
+    } else {
+      $app->redirect(\SiteConfig::getInstance()->get("base_path") . "/profile/me");
+    }
+
+});
+
+$app->get('/stats', function () use ($app) {
+
+    $ss = Libs\SAMLSession::getInstance();
+
+    if ($ss->isAdmin()) {
 
       $sql = 'select t.label tlabel, l.label llabel, count(*) cnt from app_log l, log_entity_type t where t.id = l.log_entity_type_id group by t.label, l.label';
 
@@ -14,15 +26,33 @@ $app->get('/', function () use ($app) {
         ->find_many();
 
       foreach ($statistics as $stat) {
-        $s[$stat["tlabel"]][$stat["llabel"]] = $stat["cnt"];
+        if($stat["tlabel"] && $stat["tlabel"] != null && $stat["tlabel"] != 'Null'){
+          $s[$stat["tlabel"]][$stat["llabel"]] = $stat["cnt"];
+        }else{
+          $s['General'][$stat["llabel"]] = $stat["cnt"];
+        }
       }
+      \FileLogger::debug("s = ".print_r($s,true));
 
-      $app->render('admin.html.twig', [
+      $app->render('global_stats.html.twig', [
         "global_statistics" => $s
       ]);
     } else {
       $app->redirect(\SiteConfig::getInstance()->get("base_path") . "/profile/me");
     }
+
+});
+
+$app->get('/configfile', function () use ($app) {
+
+  $ss = Libs\SAMLSession::getInstance();
+  if ($ss->isAdmin()) {
+    $app->render('config_file.html.twig', [
+
+    ]);
+  } else {
+    $app->redirect(\SiteConfig::getInstance()->get("base_path") . "/profile/me");
+  }
 
 });
 

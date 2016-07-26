@@ -79,7 +79,7 @@
         </li>
 
         {% if ss.authenticated %}
-        <li class="dropdown {{ getActiveClass('/profile') }} navbar-right">
+        <li class="dropdown navbar-right">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ ss.friendlyName }}<b class="caret"></b></a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownLanguageMenu">
             <li role="presentation" id="userProfile" class="{{ getActiveClass('/profile/me') }}">
@@ -87,8 +87,8 @@
             </li>
             {% if ss.admin %}
             <li role="separator" class="divider"></li>
-            <li role="presentation" id="admin" class="{{ getActiveClass('/admin') }}">
-              <a role="menuitem" href='{{ config.base_path }}/admin'>{% trans "Administrator" %}</a>
+            <li role="presentation" id="admin" class="">
+              <a role="menuitem" href='{{ config.base_path }}/admin'>{% trans "Administration" %}</a>
             </li>
             {% endif %}
             <li role="separator" class="divider"></li>
@@ -98,17 +98,10 @@
           </ul>
         </li>
         {% if getActiveClass('/admin') %}
-          <li class="dropdown {{ getActiveClass('/admin') }} navbar-right">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Admin" %}<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ config.base_path }}/admin">{% trans "Administration" %}</a></li>
-              <li class="{{ getActiveClass('/admin/sysinfo') }}"><a href="{{ config.base_path }}/admin/sysinfo">{% trans "System info" %}</a></li>
-              <li class="{{ getActiveClass('/admin/sendmail') }}"><a href="{{ config.base_path }}/admin/sendmail">{% trans "Send email" %}</a></li>
-            </ul>
-          </li>
+          {% include 'admin_dropdown.html.twig' %}
         {% endif %}
         {% if ss.admin %}
-        <li class="dropdown {{ getActiveClass('/user') }} navbar-right">
+        <li class="dropdown navbar-right">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Users" %}<b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li class="{{ getActiveClass('/user/create') }}"><a href="{{ config.base_path }}/utils/user/create">{% trans "New user" %}</a></li>

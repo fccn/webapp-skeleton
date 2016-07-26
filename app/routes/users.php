@@ -101,4 +101,14 @@ $app->post('/create', function () use ($app) {
     sendToUnauthorized();
   }
 });
+
+$app->get('/me', function () use ($app) {
+  $session = Libs\SAMLSession::getInstance();
+  $user = $session->getUser();
+
+  $app->render('user_profile.html.twig',[
+    'user_data' => $user->as_array(),
+  ]);
+
+});
 ?>

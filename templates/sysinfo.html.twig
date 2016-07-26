@@ -27,5 +27,7 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
 {% endblock %}
 {% block title %}{% trans "System Information" %}{% endblock %}
 {% block container %}
+  <a href="/admin" title="{% trans "Back to admin" %}">{% trans "Back to Admin" %}</a>
   {{ php_info|raw }}
+  <a href="/admin" class="pull-right" title="{% trans "Back to admin" %}">{% trans "Back to Admin" %}</a>
 {% endblock %}

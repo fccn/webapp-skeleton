@@ -1,0 +1,71 @@
+{% import "widgets.html.twig" as widget %}
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Administration" %}{% endblock %}
+{% block container %}
+    <h1>{% trans "Global statistics" %}</h1>
+    {% for stat in global_statistics|keys %}
+    <div>
+      <h3>{{stat}}:</h3>
+      <div id="{{stat}}_parent" style="padding: 5px; margin-bottom: 5px; height: 300px; border: 4px solid white;">
+        <canvas id="{{stat}}_chart" style="border:1px solid #000;"></canvas>
+      </div>
+    </div>
+    {% endfor %}
+    <h3>{% trans "Summary"%}:</h3>
+    <div>
+      {{ widget.table(global_statistics) }}
+    </div>
+    <a href="{{ config.base_path }}/admin">{% trans "Return to Admin" %}</a>
+{% endblock %}
+{% block scripts %}
+<script src="{{ config.base_path }}/js/Chart.min.js"></script>
+<script>
+
+// Create canvas
+
+{% for stat_key, stat_val in global_statistics %}
+showChart(document.getElementById('{{stat_key}}_parent'),
+  document.getElementById('{{stat_key}}_chart'),
+  [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}"{{ key }}"{%endfor%}],
+  [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}{{ value }}{%endfor%}]);
+{% endfor %}
+
+function showChart(parent,canvas,labels,data){
+  var ctx = canvas.getContext('2d'),
+    startingData = {
+        labels: labels,
+        datasets: [{
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            data: data
+        }]
+    };
+
+  var wdt=parent.clientWidth-parseInt(parent.style.paddingLeft)-parseInt(parent.style.paddingRight);
+  var ht=parent.clientHeight-parseInt(parent.style.paddingTop)-parseInt(parent.style.paddingBottom);
+
+  canvas.setAttribute('height',ht+"px");
+  canvas.setAttribute('width',wdt+"px");
+  // Reduce the animation steps for demo clarity.
+  var optionChart = new Chart(ctx).Bar(startingData, {
+    animationSteps: 15
+  });
+
+  setInterval(function () {
+    // Get a random index point
+    // var indexToUpdate = Math.round(Math.random() * startingData.labels.length);
+
+    /*
+    getData("{{ config.api_path }}/participation?mode=count", function(data) {
+      optionChart.datasets[0].bars[indexToUpdate].value = data[0].count;
+    })
+
+    optionChart.update();
+    */
+  }, 5000);
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% import "widgets.html.twig" as widget %}
+{% extends "base.html.twig" %}
+{% block title %}{% trans "My profile" %}{% endblock %}
+{% block container %}
+    <h1>{% trans "Profile of" %} {{user_data.name}}</h1>
+    <div>
+    {{ widget.table(user_data) }}
+    </div>
+{% endblock %}
