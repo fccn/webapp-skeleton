@@ -43,6 +43,8 @@
     <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- head js -->
+    <script src="{{ config.base_path }}/js/head.js.php" data-headjs-load="{{ config.base_path }}/js/init.js"></script>
 
 </head>
 
@@ -80,7 +82,7 @@
 
         {% if ss.authenticated %}
         <li class="dropdown navbar-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ ss.friendlyName }}<b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ ss.user_friendly_name }}<b class="caret"></b></a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownLanguageMenu">
             <li role="presentation" id="userProfile" class="{{ getActiveClass('/profile/me') }}">
               <a role="menuitem" href='{{ config.base_path }}/utils/user/me'>{% trans "Profile" %}</a>
@@ -110,7 +112,13 @@
         </li>
         {% endif %}
         {% else %}
-        <li class="{{ getActiveClass('/utils/login') }} navbar-right"><a href="{{ config.base_path }}/utils/login">{% trans "Login" %}</a></li>
+          <li class="{{ getActiveClass('/utils/login') }} navbar-right">
+          {% if config.additional_auth_providers %}
+            <a id="login_options" href="#">{% trans "Login" %}</a>
+          {% else %}
+            <a href="{{ config.base_path }}/utils/login">{% trans "Login" %}</a>
+          {% endif %}
+          </li>
         {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
@@ -157,9 +165,9 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ config.base_path }}/js/jquery.min.js"></script>
-<script src="{{ config.base_path }}/js/bootstrap.min.js"></script>
-<script src="{{ config.base_path }}/js/app.js"></script>
+{% if not ss.authenticated and config.additional_auth_providers %}
+{{ widget.loginOptionsDialog(config) }}
+{% endif %}
 {{ widget.cookieHeaderJS }}
 {% block scripts %}{% endblock %}
 {{ socialMedia.google_analytics_script(config) }}

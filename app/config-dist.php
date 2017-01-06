@@ -5,7 +5,7 @@
 
 date_default_timezone_set('Europe/Lisbon');
 
-$fs_root = "/var/www";
+$fs_root = "/var/www"; #make sure there is no trailing / on path
 $full_url = "http://localhost";
 
 $c = array(
@@ -15,12 +15,14 @@ $c = array(
   "base_path"       => "",
   "assets_path"     => "/assets",
   "locale_path" => "locale",
+  "vendor_path"		=> "$fs_root/vendor",
+  "node_mods_path"		=> "$fs_root/node_modules",
   "full_url" => $full_url,
   "default_css_url" => $full_url . "/css/embed.css",
 
 #------ application logfile
   "logfile_path"   => $fs_root."/logs/application.log",
-  "logfile_level"   => "WARNING",
+  "logfile_level"   => "WARNING", #options - "DEBUG", "INFO"
 
 
 #------ email config
@@ -79,21 +81,68 @@ $c = array(
 
   "localeCookieName" => "locale",
 
+
 #----- authentication
-  "ssp_base_path"    => "/opt/simplesamlphp",
-  "sp-default"       => "example-userpass",
+  "additional_auth_providers" => false, #(true|false) allow additional authentication methods besides RCTSaai
+  "auth_session_id" => "fccn_service_authsess",
+  "app-administrator-list" => array("service@fccn.pt"), #list of emails of admin users
 
-  "sp-expected-attributes" => array(
-      "eduPersonPrincipalName"      => array("mandatory" => 1, "regex" => "^([a-zA-Z0-9\-\.\'\+]+\@[a-zA-Z0-9\-\.]+)$"),
-      "eduPersonScopedAffiliation"  => array("mandatory" => 1, "regex" => "(employee|staff|faculty|student|member)@([a-zA-Z0-9\-\.]+)$"),
-      "mail"                        => array("mandatory" => 1, "regex" => "^([a-zA-Z0-9\-\.\'\+]+\@[a-zA-Z0-9\-\.]+)$"),
+  #--- SAML config (for RCTSaai)
+
+  "saml_config" => array(
+	  "ssp_base_path"    => "/opt/simplesaml",
+	  "sp-default"       => "devel-userpass",
+	  "gethostbyaddr" => true,
+
+	  "sp-expected-attributes" => array(
+  	  "eduPersonPrincipalName"      => array("mandatory" => 1, "regex" => "^([a-zA-Z0-9\-\.\'\+]+\@[a-zA-Z0-9\-\.]+)$"),
+  	  "eduPersonScopedAffiliation"  => array("mandatory" => 1, "regex" => "(employee|staff|faculty|student|member)@([a-zA-Z0-9\-\.]+)$"),
+  	  "mail"                        => array("mandatory" => 1, "regex" => "^([a-zA-Z0-9\-\.\'\+]+\@[a-zA-Z0-9\-\.]+)$"),
   		"displayName"                 => array("mandatory" => 0, "regex" => "(.+)"),
-		  "givenname"                   => array("mandatory" => 0, "regex" => "(.+)"),
-  	),
+  		  "givenname"                   => array("mandatory" => 0, "regex" => "(.+)"),
+  	   ),
+    ),
 
-  "app-administrator-list" => array("service@fccn.pt"),
+  #--- Hybrid auth config (for social media logins) -- delete if social media logins not in auth_providers
 
-  "gethostbyaddr" => true,
+  "hauth_config" => array(
+    // "base_url" the url that point to HybridAuth Endpoint (where the index.php and config.php are found)
+     "base_url" => "http://mywebsite.com/path/to/hybridauth/", #dont forget the trailing / on the end so Facebook auth works
+     //list of available providers
+     "providers" => array (
+        // google
+        "Google" => array ( // 'id' is your google client id
+          "enabled" => false, //set to true to enable
+           "keys" => array ( "id" => "", "secret" => "" ),
+        ),
+        // facebook
+        "Facebook" => array ( // 'id' is your facebook application id
+           "enabled" => false, //set to true to enable
+           "keys" => array ( "id" => "", "secret" => "" ),
+           "scope" => "email, user_about_me, user_birthday, user_hometown" // optional
+        ),
+
+        // twitter
+        "Twitter" => array (
+           "enabled" => false, //set to true to enable
+           "keys" => array ( "key" => "****", "secret" => "****" )
+        ),
+
+        //openid
+    		"OpenID" => array (
+    			"enabled" => false //set to true to enable
+    		)
+
+		    //add more providers ---
+    ),
+
+	  "debug_mode" => true ,
+       // to enable logging, set 'debug_mode' to true, then provide here a path of a writable file
+    "debug_file" => $fs_root."/logs/hauth_debug.log",
+    "allow_create" => false, #(true|false) allow create user from social account login
+   ),
+
+#----- misc
 
   # "google_analytics" => "UA-XXXXXXXX-X",
 );

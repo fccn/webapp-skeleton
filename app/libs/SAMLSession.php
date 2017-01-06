@@ -1,25 +1,26 @@
 <?php
-
+/*
+* Singleton SAML session manager
+*/
 namespace Libs;
 
-require_once(\SiteConfig::getInstance()->get("ssp_base_path").'/lib/_autoload.php');
+require_once(\SiteConfig::getInstance()->get('saml_config')["ssp_base_path"].'/lib/_autoload.php');
 
-
-class SAMLSession extends \Slim\Middleware
+class SAMLSession
 {
 
   private $as;
   private $session;
+  private $saml_config;
   private $authenticated;
-  private $user;
 
   private static $instance;
 
   private function __clone() {}
 
   public function __construct() {
-
-    $this->as = new \SimpleSAML_Auth_Simple(\SiteConfig::getInstance()->get('sp-default'));
+    $this->saml_config = \SiteConfig::getInstance()->get('saml_config');
+    $this->as = new \SimpleSAML_Auth_Simple($this->saml_config['sp-default']);
 
 /*
     if ($this->as->isAuthenticated()) {
@@ -34,86 +35,59 @@ class SAMLSession extends \Slim\Middleware
     $this->user = null;
   }
 
-  public function call()
-  {
-    $app = \Slim\Slim::getInstance();
-    $session = SAMLSession::getInstance(false);
-
-    $result = $session->getAttributes();
-    $attr = array();
-    foreach($result as $k=>$v)
-      $attr[$k] = $v[0];
-
-    $attr["admin"] = $this->isAdmin();
-    $attr["authenticated"] = $this->isAuthenticated();
-    $attr["friendlyName"] = $this->getFriendlyName();
-    $app->view()->set("ss", $attr);
-    $this->next->call();
-  }
-
-  public static function getInstance($enforce_auth = true) {
+  public static function getInstance() {
 
   	if (!SAMLSession::$instance instanceof self) {
   		SAMLSession::$instance = new self();
   	}
 
-    SAMLSession::$instance->requireAuth($enforce_auth);
-
   	return SAMLSession::$instance;
   }
 
-  public function getUser()
+  public function requireAuth($enforce_auth = true, $return_to = '')
   {
-    return $this->user;
-  }
-
-  public function requireAuth($enforce_auth = true)
-  {
-    // $this->as->requireAuth();
-    //$this->session = SAMLSession::getInstance(true);
-    // $this->authenticated = $this->isAuthenticated();
-    // SAMLSession::$instance->authenticated = false;
-
-    $this->authenticated = SAMLSession::$instance->isAuthenticated();
+    $this->authenticated = self::$instance->isAuthenticated();
 
     if (($enforce_auth) && (!$this->authenticated)) {
 
-      $this->as->requireAuth();
-      $this->authenticated = SAMLSession::$instance->isAuthenticated();
-
+      if(empty($return_to)){
+        $this->as->requireAuth();
+      }else{
+        $this->as->requireAuth(array(
+          'ReturnTo' => $return_to,
+        ));
+      }
+      $this->authenticated = self::$instance->isAuthenticated();
     }
-
+    /*
     if (($this->user == null) && ($this->authenticated)) {
-      $user = \Model::factory('User')->where('email', $this->getEmail())->find_one();
+      $user = \User::find_by_email($this->getEmail());
 
       $already_authenticated = false;
 
       if ($user == false) {
-        $user = \Model::factory('User')->create();
-        $user->email = $this->getEmail();
-        $user->name = $this->getFriendlyName();
-        $user->localuser = 0;
-        $user->session_count = 0;
-        $user->auth_source = $this->getAuthSourceId();
-        $user->created_at = date( 'Y-m-d H:i:s', time() );
+        $user = \User::create_from_saml([
+          'email' => $this->getEmail(),
+          'name' => $this->getFriendlyName(),
+          'auth_id' => $this->getAuthSourceId(),
+        ]);
       } else {
         $already_authenticated = $user->in_session;
       }
 
       if ($already_authenticated == false) {
-        $user->locale = Locale::getCurrentLang();
-        $user->last_login = date( 'Y-m-d H:i:s', time() );
-        $user->in_session = true;
-        $user->session_count++;
-        $user->save();
-
+        $user->update_authdata();
         AppLog("login", $user);
       }
 
       $this->user = $user;
 
-    }
+    } */
+  }
 
+  #-- forces SAML authentication accepts return to address
+  public function authenticate($rto=''){
+    $this->requireAuth(true,$rto);
   }
 
   public function getSession() {
@@ -160,14 +134,40 @@ class SAMLSession extends \Slim\Middleware
   	return $result;
   }
 
+  public function getMissingOrIncorrectAttributes(){
+    $res = array('missing' => [],
+    'incorrect' => []);
+    foreach($this->getAllExpectedAttributes() as $attribute => $params) {
+      if ($v = $this->findAttribute($attribute)) {
+        if (isset($params["regex"])) {
+  		    $ok = preg_match("/" . $params["regex"] . "/",$v);
+  		    if (!$ok) {
+            \FileLogger::error('getMissingOrIncorrectAttributes: mandatory attribute <'.$attribute.'> is incorrectly formed. value '.$v.' does not follow regex:'.$params['regex']);
+  		      array_push($res['incorrect'],
+              array('attribute' => $attribute,
+              'value' => $v,
+              'regex' => $params["regex"]
+            ));
+  		    }
+  		  }
+      }else{
+  			if ($params["mandatory"] == 1){
+          \FileLogger::error('getMissingOrIncorrectAttributes: mandatory attribute <'.$attribute.'> not found');
+  			  array_push($res['missing'], $attribute);
+        }
+  		}
+  	}
+    return $res;
+  }
+
   public function getAllExpectedAttributes()
   {
-  	return \SiteConfig::getInstance()->get('sp-expected-attributes');
+  	return $this->saml_config['sp-expected-attributes'];
   }
 
   public function getAdministratorList()
   {
-    return \SiteConfig::getInstance()->get("sp-administrator-list");
+    return $this->saml_config["sp-administrator-list"];
   }
 
   public function isAuthenticated() {
@@ -184,7 +184,7 @@ class SAMLSession extends \Slim\Middleware
 
   public function getFQDN_AuthSourceId()
   {
-    return preg_replace('/https:\/\/([0-9A-Za-z\-\.]+)\/.*/', '$1', $this->getAuthId());
+    return preg_replace('/https:\/\/([0-9A-Za-z\-\.]+)\/.*/', '$1', $this->getIdP());
   }
 
   public function getAuthSourceId()
@@ -193,6 +193,18 @@ class SAMLSession extends \Slim\Middleware
     	return $this->as->getAuthSource()->getAuthId();
   	else
   		return "";
+  }
+
+  public function getIdP(){
+    if($this->getAuthData('saml:sp:IdP')){
+      return $this->getAuthData('saml:sp:IdP');
+    }
+    return "";
+  }
+
+  public function getAuthData($name)
+  {
+    return $this->as->getAuthData($name);
   }
 
   public function findAttribute($attr_id) {
@@ -213,6 +225,21 @@ class SAMLSession extends \Slim\Middleware
   public function getEmail()
   {
     return $this->findAttribute("mail");
+  }
+
+  /*
+   * Returns array with the following session attributes:
+   * - user_email (mandatory)
+   * - user_friendly_name (mandatory)
+   * - auth_source (mandatory)
+   * - institution (optional)
+  */
+  public function getSessionAttributes(){
+    return array(
+      'user_email' => $this->getEmail(),
+      'user_friendly_name' => $this->getFriendlyName(),
+      'auth_source' => $this->getAuthSourceId()
+    );
   }
 
   public function getEntityFQDN()
@@ -263,15 +290,49 @@ class SAMLSession extends \Slim\Middleware
     return $this->findAttribute("urn:oid:2.5.4.20");
   }
 
+  public function getOrganizationName()
+  {
+    if($this->findAttribute('organizationName')){
+      return $this->findAttribute('organizationName');
+    }
+    return "";
+  }
+
   public function isAdmin()
   {
   	return ($this->isAuthenticated()
-         && in_array($this->getEmail(), \SiteConfig::getInstance()->get("app-administrator-list")));
+         && in_array($this->getEmail(), $this->saml_config["app-administrator-list"]));
   }
 
-  public function logout()
+  public function logout($return_to = '')
   {
-    $this->as->logout();
+    if(empty($return_to)){
+      $this->as->logout();
+    }else{
+      $this->as->logout(array(
+        'ReturnTo' => $return_to
+      ));
+    }
+  }
+
+  public function listAttributeErrors(){
+    $expected = $this->getAllExpectedAttributes();
+    $tbl = array();
+    foreach($expected as $attribute => $params) {
+      $status = array(
+        'attribute' => $attribute,
+        'mandatory' => $params["mandatory"] ? true : false,
+        'value' => $this->findAttribute($attribute),
+        'regex' => 1
+      );
+      if ($status['value']) {
+        if (isset($params["regex"])) {
+           $status['regex'] = preg_match("/" . $params["regex"] . "/",$status['value']);
+        }
+      }
+      $tbl[] = $status;
+    }
+    return $tbl;
   }
 
 }

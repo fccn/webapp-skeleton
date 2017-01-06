@@ -1,17 +1,18 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once 'libs/AppLog.php';
 require_once 'libs/Locale.php';
 require_once 'libs/SiteConfig.php';
-require_once 'libs/SAMLSession.php';
+require_once 'libs/AuthSession.php';
 require_once 'libs/WebMailer.php';
+require_once 'libs/AppUtils.php';
 
 
 // Prepare app
 $app = new \Slim\Slim(array(
     'mode' => \SiteConfig::getInstance()->get('mode'),
-    'templates.path' => '../templates',
+    'templates.path' => realpath(dirname(__FILE__).'/../templates'),
 ));
 
 // Prepare view
@@ -55,7 +56,13 @@ $app->configureMode('development', function () use ($app) {
 // (Singleton resources retrieve the same log resource definition each time)
 $app->container->singleton('log', function () {
     $log = new \Monolog\Logger('slim-skeleton');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::DEBUG));
+    if(\SiteConfig::getInstance()->get('logfile_level') == 'DEBUG'){
+      $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::DEBUG));
+    }elseif (\SiteConfig::getInstance()->get('logfile_level') == 'INFO') {
+      $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::INFO));
+    }else{ #default to warning
+      $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::WARNING));
+    }
     return $log;
 });
 
@@ -65,17 +72,9 @@ $app->notFound(function () use ($app) {
     'message' => \Libs\Locale::getHtmlContent("error_404")]);
 });
 
-/*
-$app->notAllowed(function () use ($app) {
-
-    $app->render('405.html.twig', [
-    'message' => \Libs\Locale::getHtmlContent("error_405")]);
-});
-*/
-
 // Handle Locale Cookie
 $app->add(new Libs\Locale());
-$app->add(new Libs\SAMLSession());
+$app->add(new Libs\AuthSession());
 
 $app->view()->set('config', \SiteConfig::getInstance()->all());
 
@@ -100,5 +99,46 @@ $filter  = new Twig_SimpleFilter("translate", function($stdClassObject) {
   });
 
 $app->view()->getEnvironment()->addFilter($filter);
+
+$filter = new Twig_SimpleFilter('md5', function ($string) {
+    return md5($string);
+});
+
+$app->view()->getEnvironment()->addFilter($filter);
+
+$filter = new Twig_SimpleFilter('toXBts', function ($rate) {
+    return Libs\AppUtils::bytes_pretty_print($rate);
+});
+
+$app->view()->getEnvironment()->addFilter($filter);
+
+$filter = new Twig_SimpleFilter('secToDate', function ($secs,$format) {
+    return date($format,$secs);
+});
+
+$app->view()->getEnvironment()->addFilter($filter);
+
+//add functions
+
+$function = new Twig_SimpleFunction('compress_params', function ($params) {
+    return Libs\AppUtils::compress_params($params);
+});
+
+$app->view()->getEnvironment()->addFunction($function);
+
+$function = new Twig_SimpleFunction('get_org_shortname', function () {
+    return Libs\AppUtils::get_short_fqdn();
+});
+
+$app->view()->getEnvironment()->addFunction($function);
+
+$function = new Twig_SimpleFunction('to_json', function ($var) {
+    return json_encode($var);
+});
+
+$app->view()->getEnvironment()->addFunction($function);
+
+//store twig view in container
+$app->container['twig'] = $app->view();
 
 return $app;

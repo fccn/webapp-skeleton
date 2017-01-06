@@ -1,0 +1,7 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Login failed" %}{% endblock %}
+{% block container %}
+    <p>{% trans "Unable to login using provider" %}:&nbsp;<b>{{provider}}</b>.</p>
+    <br>
+    <a href="{{ config.base_path }}/utils/logout" class="btn btn-raised">{% trans "Return to Home" %}</a>
+{% endblock %}

@@ -1,9 +1,9 @@
 composer.phar
 composer.lock
 DEADJOE
-.*
 *~
-vendor/*
+vendor/**
+components/**
 logs/**
 cache/**
 node_modules/**

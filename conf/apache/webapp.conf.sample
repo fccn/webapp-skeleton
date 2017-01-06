@@ -1,0 +1,42 @@
+Define WEBAPP_SKT_PORT 0000
+Define WEBAPP_SKT_SERVER_NAME your-server-name
+Define WEBAPP_SKT_HOME path-to-project-base
+Define WEBAPP_SKT_ADMIN server-admin@email
+
+#----- do not change below this line ----
+
+Listen ${WEBAPP_SKT_PORT}
+
+<Directory "${WEBAPP_SKT_HOME}">
+  AllowOverride All
+  Order allow,deny
+  Allow from all
+</Directory>
+
+<VirtualHost *:${WEBAPP_SKT_PORT}>
+	php_value include_path ".:${WEBAPP_SKT_HOME}/models:${WEBAPP_SKT_HOME}/app"
+
+	ServerAdmin ${WEBAPP_SKT_ADMIN}
+  DocumentRoot ${WEBAPP_SKT_HOME}/html
+  ServerName ${WEBAPP_SKT_SERVER_NAME}
+  ErrorLog ${WEBAPP_SKT_HOME}/logs/http_error.log
+  CustomLog ${WEBAPP_SKT_HOME}/logs/http_access.log common
+
+	#Expires
+
+	Options -Indexes
+
+	ExpiresActive On
+	ExpiresDefault "access plus 10 minutes"
+	ExpiresByType text/javascript "access plus 1 day"
+	ExpiresByType appllication/font-woff "access plus 1 month"
+
+	ExpiresByType image/gif "access plus 1 month"
+	ExpiresByType image/png "access plus 1 month"
+	ExpiresByType image/jpg "access plus 1 month"
+
+    <FilesMatch ".*\.php$">
+	  Header set Cache-control "no-cache"
+	</FilesMatch>
+
+</VirtualHost>

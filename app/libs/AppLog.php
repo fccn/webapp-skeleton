@@ -25,7 +25,7 @@ function AppLog($label, $object, $param = null)
       $log->entity_id = $object->id;
     }
 
-    $session = Libs\SAMLSession::getInstance(false);
+    $session = Libs\AuthSession::getInstance(false);
     if ($session->isAuthenticated()) {
       $log->user_id = $session->getUser()->id;
     } else {

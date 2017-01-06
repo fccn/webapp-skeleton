@@ -2,7 +2,7 @@
 
 $app->get('/', function () use ($app) {
 
-    $ss = Libs\SAMLSession::getInstance();
+    $ss = Libs\AuthSession::getInstance();
 
     if ($ss->isAdmin()) {
         $app->render('admin.html.twig',[]);
@@ -14,7 +14,7 @@ $app->get('/', function () use ($app) {
 
 $app->get('/stats', function () use ($app) {
 
-    $ss = Libs\SAMLSession::getInstance();
+    $ss = Libs\AuthSession::getInstance();
 
     if ($ss->isAdmin()) {
 
@@ -45,7 +45,7 @@ $app->get('/stats', function () use ($app) {
 
 $app->get('/configfile', function () use ($app) {
 
-  $ss = Libs\SAMLSession::getInstance();
+  $ss = Libs\AuthSession::getInstance();
   if ($ss->isAdmin()) {
     $app->render('config_file.html.twig', [
 
@@ -58,7 +58,7 @@ $app->get('/configfile', function () use ($app) {
 
 # /admin/sysinfo
 $app->get('/sysinfo', function () use ($app) {
-  $ss = Libs\SAMLSession::getInstance();
+  $ss = Libs\AuthSession::getInstance();
 
   ob_start();
   phpinfo();
@@ -76,7 +76,7 @@ $app->get('/sysinfo', function () use ($app) {
 #get /admin/sendmail
 $app->get('/sendmail', function () use ($app) {
   \FileLogger::debug('GET /admin/sendmail');
-  $ss = Libs\SAMLSession::getInstance();
+  $ss = Libs\AuthSession::getInstance();
 
   if ($ss->isAdmin()) {
     $app->render('adm_sendmail.html.twig', [
@@ -91,7 +91,7 @@ $app->get('/sendmail', function () use ($app) {
 #post /admin/sendmail
 $app->post('/sendmail', function () use ($app) {
   \FileLogger::debug('POST /admin/sendmail');
-  $ss = Libs\SAMLSession::getInstance();
+  $ss = Libs\AuthSession::getInstance();
   $request = $app->request();
 
   if ($ss->isAdmin()) {

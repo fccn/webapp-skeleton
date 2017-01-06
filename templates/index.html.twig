@@ -5,7 +5,9 @@
  <div class="col-sm-12">
    <H1>{{ config.app_name }}</H1>
    <p>{{ description|raw }}</p>
- </div> 
+   <p>SessionData:</p>
+   <pre>{{dump(ss)}}</pre>
+ </div>
 </div>
 
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Login failed" %}{% endblock %}
+{% block container %}
+    {{ description|raw }}
+    <table class="table">
+      <thead>
+      <tr>
+        <th>{% trans "Attribute" %}</th>
+        <th>{% trans "Value" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for attr in attr_table %}
+      <tr {% if attr.mandatory and ((not attr.value) or (attr.regex == 0)) %}class="bg-danger"{% elseif (not attr.value) or (attr.regex == 0) %}class="bg-warning"{% endif %} >
+        <td>
+          {{attr.attribute}}{% if attr.mandatory %}&nbsp;<b>*</b>{% endif %}
+        </td>
+        <td {% if attr.mandatory and ((not attr.value) or (attr.regex == 0)) %}class="text-danger"{% elseif (not attr.value) or (attr.regex == 0) %}class="text-warning"{% endif %}>
+          {% if attr.value and attr.regex == 1 %}
+            {{attr.value}}
+          {% elseif attr.value %}
+            {% trans "Value sent not compliant with field vocabulary rules"%}!&nbsp;<b>**{{attr.value}}**</b>
+          {% else %}
+            {% trans "Not set"%}!
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <p><small>* {% trans "Mandatory attribute" %}</small></p>
+    <a href="{{ config.base_path }}/utils/logout" class="btn btn-raised">{% trans "Return to Home" %}</a>
+{% endblock %}

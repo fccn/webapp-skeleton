@@ -9,6 +9,11 @@
     "grunt-xgettext": "~0.3.5"
   },
   "dependencies": {
-    "datatables.net": "~1.10.10"
+    "bootbox": "^4.4.0",
+    "chart.js": "^2.4.0",
+    "datatables.net": "~1.10.10",
+    "datatables.net-bs": "^1.10.12",
+    "headjs": "^1.0.3",
+    "modernizr": "^3.3.1"
   }
 }

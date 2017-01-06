@@ -126,16 +126,16 @@
 {% macro cookieHeaderJS() %}
 
 <script type="text/javascript">
-  jQuery(document).ready(function(){
+  head.ready('app_utils',function(){
 
-  function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
+    function readCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
 
-    for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
       }
       return null;
     }
@@ -203,5 +203,27 @@
       backdrop: 'static',
       keyboard: false});
   }
+</script>
+{% endmacro %}
+
+{% macro loginOptionsDialog(config) %}
+<script type="text/javascript">
+  // -- {{config.hauth_config.base_url}}
+  head.ready('bootbox',function(){
+    $('#login_options').click(function(){
+      //rcts aai login button
+      var msg = '<p>{% trans "You can authenticate using one of the following services:" %}</p><hr>';
+      msg += '<div class="wrapper text-center"><a href="/utils/login/rctsaai" class="btn btn-default rctsaai-auth">RCTS-AAI</a>';
+      {% for ap_name, ap_status in config.hauth_config.providers if ap_status.enabled %}
+      msg += '&nbsp;&nbsp;<a href="/utils/login/{{ ap_name|lower }}" class="btn btn-default {{ ap_name }}-auth">{{ ap_name }}</a>';
+      {% endfor %}
+      msg += '</div>';
+      bootbox.dialog({
+        title: '{% trans "Login" %}',
+        message: msg,
+        closeButton: true
+      });
+    });
+  });
 </script>
 {% endmacro %}

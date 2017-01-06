@@ -4,7 +4,7 @@
 
 $app->get('/check', function () use ($app) {
 
-  $session = Libs\SAMLSession::getInstance();
+  $session = Libs\AuthSession::getInstance();
   #allow only admins to get access to user info
   if ($session->isAdmin()) {
     $app->render('userCheckForm.html.twig', [
@@ -19,7 +19,7 @@ $app->get('/check', function () use ($app) {
 $app->post('/check', function() use ($app){
 
   $request = $app->request();
-  $session = Libs\SAMLSession::getInstance();
+  $session = Libs\AuthSession::getInstance();
 
   if ($session->isAdmin()) {
 
@@ -56,7 +56,7 @@ $app->post('/check', function() use ($app){
 });
 
 $app->get('/create', function () use ($app) {
-  $session = Libs\SAMLSession::getInstance();
+  $session = Libs\AuthSession::getInstance();
   if($session->isAdmin()){
     $app->render('userCreateForm.html.twig');
   }else { #send to unauthorized
@@ -70,7 +70,7 @@ $app->post('/create', function () use ($app) {
     $user_name = $request->post("name");
     $user_email = $request->post("email");
 
-    $session = Libs\SAMLSession::getInstance();
+    $session = Libs\AuthSession::getInstance();
     $user = \Model::factory('User')->where('email', $user_email)->find_one();
     if(!empty($user)){
       //user already exists, show error
@@ -103,7 +103,7 @@ $app->post('/create', function () use ($app) {
 });
 
 $app->get('/me', function () use ($app) {
-  $session = Libs\SAMLSession::getInstance();
+  $session = Libs\AuthSession::getInstance(true);
   $user = $session->getUser();
 
   $app->render('user_profile.html.twig',[

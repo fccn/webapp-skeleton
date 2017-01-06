@@ -26,7 +26,9 @@
       "j4mie/paris": "^1.5",
       "sabre/vobject": "^3.4",
       "phpmailer/phpmailer": "^5.2",
-      "components/font-awesome" : "^4.6"
+      "components/font-awesome" : "^4.6",
+      "hybridauth/hybridauth" : "^2.7",
+      "ircmaxell/random-lib" : "dev-master"
     },
 
     "autoload": {
