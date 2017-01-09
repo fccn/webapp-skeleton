@@ -36,7 +36,7 @@ class SAMLSession
   }
 
   public static function getInstance() {
-
+    \FileLogger::debug("call SAMLSession::getInstance");
   	if (!SAMLSession::$instance instanceof self) {
   		SAMLSession::$instance = new self();
   	}
@@ -59,30 +59,6 @@ class SAMLSession
       }
       $this->authenticated = self::$instance->isAuthenticated();
     }
-    /*
-    if (($this->user == null) && ($this->authenticated)) {
-      $user = \User::find_by_email($this->getEmail());
-
-      $already_authenticated = false;
-
-      if ($user == false) {
-        $user = \User::create_from_saml([
-          'email' => $this->getEmail(),
-          'name' => $this->getFriendlyName(),
-          'auth_id' => $this->getAuthSourceId(),
-        ]);
-      } else {
-        $already_authenticated = $user->in_session;
-      }
-
-      if ($already_authenticated == false) {
-        $user->update_authdata();
-        AppLog("login", $user);
-      }
-
-      $this->user = $user;
-
-    } */
   }
 
   #-- forces SAML authentication accepts return to address
@@ -306,6 +282,7 @@ class SAMLSession
 
   public function logout($return_to = '')
   {
+    \FileLogger::debug('call SamlSession::logout - return_to: '.$return_to);
     if(empty($return_to)){
       $this->as->logout();
     }else{

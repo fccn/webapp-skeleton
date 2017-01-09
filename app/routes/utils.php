@@ -14,9 +14,18 @@ $app->get('/setlang/:lang', function ($lang) use ($app) {
   }
 });
 
+#-- show select login page
+$app->get('/select_login', function() use ($app) {
+  $rto = $app->request()->get('rto');
+  $app->render('select_login.html.twig', [
+    'description' => \Libs\Locale::getHtmlContent("select_login_intro"),
+    'rto' => $rto
+  ]);
+});
+
 #-- login user
 $app->get('/login/:kind', function ($kind) use ($app) {
-  \FileLogger::debug("login user with provider -$kind-");
+  \FileLogger::debug("GET /utils/login/$kind");
   //get valid auth schemes
   $valid_auths = [Libs\AuthProvider::$RCTSAAI];
   $social_auths = \SiteConfig::getInstance()->get('hauth_config');
@@ -26,8 +35,8 @@ $app->get('/login/:kind', function ($kind) use ($app) {
     }
   }
   if(in_array($kind,$valid_auths)) {
-    //get session instance and force authentication
-    $session = Libs\AuthSession::getInstance();
+    //get session instance
+    $session = Libs\AuthSession::getInstance(false);
     if($session && $session->isAuthenticated()){
       //user is already authenticated
       $app->redirect(\SiteConfig::getInstance()->get("base_path") . '/');
@@ -37,7 +46,12 @@ $app->get('/login/:kind', function ($kind) use ($app) {
       \FileLogger::debug('tried authenticate user');
       if($session->isAuthenticated()){
         \FileLogger::debug('user authenticated '.$kind);
-        $app->redirect(\SiteConfig::getInstance()->get("base_path") . '/');
+        //TODO handle redirect
+        $redirect_url = $app->request()->get('rto');
+        if(empty($redirect_url)){
+          $redirect_url = '/';
+        }
+        $app->redirect(\SiteConfig::getInstance()->get("base_path") . $redirect_url);
       }else{
         \FileLogger::debug('unable to login with '.$kind);
         if($kind == Libs\AuthProvider::$RCTSAAI){
@@ -54,33 +68,6 @@ $app->get('/login/:kind', function ($kind) use ($app) {
         }
       }
     }
-    /*  if($session && $session->isSAML()) {
-      $expected = $session->getAllExpectedAttributes();
-      $tbl = array();
-      foreach($expected as $attribute => $params) {
-        $status = array(
-          'attribute' => $attribute,
-          'mandatory' => $params["mandatory"] ? true : false,
-          'value' => $session->findAttribute($attribute),
-          'regex' => 1
-        );
-        if ($status['value']) {
-          if (isset($params["regex"])) {
-        	   $status['regex'] = preg_match("/" . $params["regex"] . "/",$status['value']);
-          }
-        }
-        $tbl[] = $status;
-      }
-      $app->render('login-failed-rctsaai.html.twig', [
-        'attr_table' => $tbl,
-        'description' => \Libs\Locale::getHtmlContent("login_failure")
-      ]);
-    }else{
-      #not allowed to login with this provider
-      $app->render('login-failed.html.twig', [
-        'provider' => $kind
-      ]);
-    } */
   }else{
     \FileLogger::debug("Provider $kind not supported");
     #provider not supported
@@ -94,20 +81,8 @@ $app->get('/login/:kind', function ($kind) use ($app) {
 #-- logout user
 $app->get('/logout', function () use ($app) {
 
-  $session = Libs\AuthSession::getInstance();
-
-  if ($session->isAuthenticated()) {
-
-    /* TODO handle user logout on DB
-    $user = Model::factory('User')->where('email',$session->getEmail())->find_one();
-
-    if (($user != false) && (get_class($user) == "User")) {
-      $user->in_session = false;
-      $user->save();
-      AppLog("logout", $user);
-    }
-    */
-  }
+  $session = Libs\AuthSession::getInstance(false);
+  \FileLogger::debug('has auth? '.!empty($session->getAuth()));
   //logout
   $session->logout();
   //redirect to main page

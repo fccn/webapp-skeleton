@@ -103,7 +103,7 @@ $app->post('/create', function () use ($app) {
 });
 
 $app->get('/me', function () use ($app) {
-  $session = Libs\AuthSession::getInstance(true);
+  $session = Libs\AuthSession::getInstance();
   $user = $session->getUser();
 
   $app->render('user_profile.html.twig',[

@@ -22,13 +22,24 @@ class User extends Model {
 	}
 
 	#Updates user authentication data
-	public function update_authdata(){
-		//TODO fill in user data
+	public function login(){
+		//TODO fill in user data according to your user model
 		#$this->locale = Locale::getCurrentLang();
 		#$this->last_login = date( 'Y-m-d H:i:s', time() );
 		#$this->in_session = true;
 		#$this->session_count++;
 		#$this->save();
+	}
+
+	#Registers user logout in database
+	public static function logout($uuid){
+		//TODO change this according to your user model
+		$user = \Model::factory('User')
+			->where('email',$uuid)->find_one();
+		if($user){
+			#$user->in_session = false;
+			#$user->save();
+		}
 	}
 
 }

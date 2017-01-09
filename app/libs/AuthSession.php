@@ -18,6 +18,7 @@ class AuthSession extends \Slim\Middleware
   private $auth;
   private $authenticated;
   private $user;
+  private $session_config;
   private static $instance;
 
   private function __clone() {}
@@ -25,6 +26,16 @@ class AuthSession extends \Slim\Middleware
   public function __construct() {
     $this->authenticated = false;
     $this->user = null;
+    $this->session_config = array(
+      "session_id" => \SiteConfig::getInstance()->get('auth_session_id'),
+      "more_auth_providers" => \SiteConfig::getInstance()->get('additional_auth_providers'),
+      "allow_create_social_auth" => !empty(\SiteConfig::getInstance()->get('hauth_config')) && \SiteConfig::getInstance()->get('hauth_config')['allow_create'],
+      "app_admins" => \SiteConfig::getInstance()->get('app-administrator-list'),
+    );
+  }
+
+  public function getAuth(){
+    return $this->auth;
   }
 
   public static function getInstance($enforce_auth = true) {
@@ -58,9 +69,19 @@ class AuthSession extends \Slim\Middleware
   #check authentication status and enforce authentication
   public function requireAuth($enforce_auth = true)
   {
+    \FileLogger::debug('calling AuthSession::requireAuth');
     $this->authenticated = $this->isAuthenticated();
     if (($enforce_auth) && (!$this->authenticated)) {
-      //TODO show authentication page
+      #\FileLogger::debug('AuthSession::requireAuth - user not authenticated');
+      //check if there is an authentication provider
+      if($this->validateAuthProvider() && empty($this->session_config['more_auth_providers'])){
+        //validate using SAML provider
+        $this->auth->requireAuth(true);
+      }else{
+        //redirect to authentication page
+        $app = \Slim\Slim::getInstance();
+        $app->redirect(\SiteConfig::getInstance()->get("base_path") . '/utils/select_login?rto='.urlencode(\SiteConfig::getInstance()->get('base_path').$_SERVER['REQUEST_URI']));
+      }
       $this->authenticated = $this->isAuthenticated();
     }
   }
@@ -96,9 +117,10 @@ class AuthSession extends \Slim\Middleware
 
   public function isAuthenticated()
   {
+    \FileLogger::debug('call AuthSession::isAuthenticated');
     //check session var
-    if(isset($_SESSION) && !empty($_SESSION[\SiteConfig::getInstance()->get('auth_session_id')])){
-      return !empty($_SESSION[\SiteConfig::getInstance()->get('auth_session_id')]['authenticated']);
+    if(isset($_SESSION) && !empty($_SESSION[$this->session_config['session_id']])){
+      return !empty($_SESSION[$this->session_config['session_id']]['authenticated']);
     }
     //check authenticator
     if($this->validateAuthProvider()){
@@ -112,7 +134,7 @@ class AuthSession extends \Slim\Middleware
     if($this->isAuthenticated()){
       $s_attr = $this->getSessionAttributes();
       if(!empty($s_attr)){
-        return in_array($s_attr['user_email'], \SiteConfig::getInstance()->get('app-administrator-list'));
+        return in_array($s_attr['user_email'], $this->session_config['app_admins']);
       }
     }
   	return false;
@@ -126,7 +148,7 @@ class AuthSession extends \Slim\Middleware
     }
     //try authenticating
     $this->auth->authenticate();
-    \FileLogger::debug("User is authenticated? ".$this->auth->isAuthenticated());
+    #\FileLogger::debug("User is authenticated? ".$this->auth->isAuthenticated());
     //set user only if authenticated
     if ($this->auth->isAuthenticated()) {
       $uuid = '';
@@ -152,7 +174,7 @@ class AuthSession extends \Slim\Middleware
         //check if user is allowed
         if(!empty($user)){
           if ($already_authenticated == false) {
-            $user->update_authdata();
+            $user->login();
             AppLog("login", $user);
           }
           $this->user = $user;
@@ -162,7 +184,7 @@ class AuthSession extends \Slim\Middleware
         $uuid = $this->user->email;
       }
       //set session var
-      $_SESSION[\SiteConfig::getInstance()->get('auth_session_id')] = array(
+      $_SESSION[$this->session_config['session_id']] = array(
         'provider' => $provider,
         'authenticated' => $this->auth->isAuthenticated(),
         'uuid' => $uuid
@@ -172,15 +194,29 @@ class AuthSession extends \Slim\Middleware
 
   #-- logout user - accepts return URL as optional param
   public function logout($return_to=''){
-    \FileLogger::debug("user logging out...");
-    #if($this->validateAuthProvider()){
+    \FileLogger::debug("call AuthSession::logout - return_to=$return_to");
+    if(empty($return_to)){
+      $return_to = \SiteConfig::getInstance()->get('base_path').'/';
+    }
+    if($this->validateAuthProvider()){
+      if(isset($_SESSION[$this->session_config['session_id']])){
+        //logout user in DB
+        \User::logout($_SESSION[$this->session_config['session_id']]['uuid']);
+        //clear authentication session data
+        #\FileLogger::debug("clearing authentication session data");
+        unset($_SESSION[$this->session_config['session_id']]);
+      }
       //logout from provider
-    #  $this->auth->logout();
-    #}
-    //clear session data
-    if(isset($_SESSION)){
-      \FileLogger::debug("clearing session data");
-      session_unset();
+      $this->auth->logout($return_to);
+    }else{
+      if(isset($_SESSION)){
+        if(isset($_SESSION[$this->session_config['session_id']])){
+          //logout user in DB
+          \User::logout($_SESSION[$this->session_config['session_id']]['uuid']);
+        }
+        \FileLogger::debug("clearing all session data");
+        session_unset();
+      }
     }
   }
 
@@ -196,15 +232,12 @@ class AuthSession extends \Slim\Middleware
      #-- RCTSaai can always create user
      return true;
    }
-   if(empty(\SiteConfig::getInstance()->get('additional_auth_providers'))){
+   if(empty($this->session_config['more_auth_providers'])){
      #-- no additional auth providers, cannot create user
      return false;
    }
    #-- check if social media accounts can create user
-   if(!empty(\SiteConfig::getInstance()->get('hauth_config'))){
-     return !empty(\SiteConfig::getInstance()->get('hauth_config')['allow_create']);
-   }
-   return false;
+   return $this->session_config['allow_create_social_auth'];
  }
 
 #----- helpers
@@ -215,16 +248,19 @@ class AuthSession extends \Slim\Middleware
    * true if $this->auth is not empty
    */
   private function validateAuthProvider(){
+    \FileLogger::debug('call AuthSession::validateAuthProvider');
     if(empty($this->auth)){
-      #\FileLogger::debug('Auth provider not found, trying to set');
+      #\FileLogger::debug('--Auth provider not found, trying to set');
       if(!isset($_SESSION)){
         #start session if there are no session vars
         session_start();
       }
-      if(!empty($_SESSION[\SiteConfig::getInstance()->get('auth_session_id')]) && !empty($_SESSION[\SiteConfig::getInstance()->get('auth_session_id')]['provider'])){
-        $this->setAuthProvider($_SESSION[\SiteConfig::getInstance()->get('auth_session_id')]['provider']);
+      if(!empty($_SESSION[$this->session_config['session_id']]) && !empty($_SESSION[$this->session_config['session_id']]['provider'])){
+        #\FileLogger::debug('--setting auth provider '.$_SESSION[$this->session_config['session_id']]['provider']);
+        $this->setAuthProvider($_SESSION[$this->session_config['session_id']]['provider']);
       }
     }
+    #\FileLogger::debug('AuthSession::validateAuthProvider - returning '.!empty($this->auth));
     return !empty($this->auth);
   }
 
@@ -232,7 +268,7 @@ class AuthSession extends \Slim\Middleware
    * @param_name the given provider name
    */
   private function setAuthProvider($provider_name,$force_auth = false){
-    \FileLogger::debug("Setting auth provider $provider_name. Force authentication: $force_auth");
+    \FileLogger::debug("call AuthSession::setAuthProvider - provider_name: $provider_name. Force authentication: $force_auth");
     switch ($provider_name) {
       case AuthProvider::$RCTSAAI:
         $this->auth = SAMLSession::getInstance($force_auth);
@@ -248,6 +284,7 @@ class AuthSession extends \Slim\Middleware
         \FileLogger::warn('Unknown authentication provider: '.$provider_name);
         break;
     }
+    #\FileLogger::debug("AuthSession::setAuthProvider - auth: ".print_r($this->auth,true));
   }
 
 }

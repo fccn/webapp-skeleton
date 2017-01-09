@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Login required" %}{% endblock %}
+{% block container %}
+    {{ description|raw }}
+    <hr>
+    <div class="wrapper text-center">
+      <a href="/utils/login/rctsaai{% if rto %}?rto={{rto}}{% endif %}" class="btn btn-default rctsaai-auth">RCTS-AAI</a>
+      {% for ap_name, ap_status in config.hauth_config.providers if ap_status.enabled %}
+      &nbsp;&nbsp;<a href="/utils/login/{{ ap_name|lower }}{% if rto %}?rto={{rto}}{% endif %}" class="btn btn-default {{ ap_name }}-auth">{{ ap_name }}</a>
+      {% endfor %}
+    </div>
+    <div class="pull-right">
+      <a href="{{ config.base_path }}/" class="btn btn-default">{% trans "Return to home" %}</a>
+    </div>
+{% endblock %}
