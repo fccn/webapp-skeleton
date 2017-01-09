@@ -12,7 +12,9 @@ class HybridAuthSession
   private $session;
   private $authenticated;
   private $provider;
+  private $oid_url;
   private $adapter;
+  private $user_profile;
 
   private static $instance;
 
@@ -26,9 +28,11 @@ class HybridAuthSession
       $this->ha = '';
     }
     $this->authenticated = false;
-    $this->adapter = null;
-    $this->session = null;
-    $this->provider = null;
+    $this->adapter = '';
+    $this->session = '';
+    $this->provider = '';
+    $this->oid_url = '';
+    $this->user_profile = '';
   }
 
   public static function getInstance() {
@@ -37,6 +41,7 @@ class HybridAuthSession
   		self::$instance = new self();
   	}
     if(empty(self::$instance->ha)){
+      \FileLogger::warn('HybridAuthSession::getInstance - unable to get HybridAuth instance');
       return '';
     }
   	return self::$instance;
@@ -59,15 +64,24 @@ class HybridAuthSession
     return '';
   }
 
-  /* tries to authenticate with the stored provider */
-  public function authenticate($oid_url = ''){
+  /* sets a provider for this session */
+  public function setProvider($provider){
+    $this->provider = $provider;
+  }
+
+  /* tries to authenticate using a designated provider
+  * @rto - url for return address
+  */
+  public function authenticate($rto = ''){
+    \FileLogger::debug('call HybridAuthSession::authenticate with provider = '.$this->provider.' and oid_url='.$this->oid_url);
     if (!empty($this->provider) && !empty($this->ha)) {
       try{
         if($this->provider == 'openid'){
-          $this->adapter = $this->ha->authenticate($this->provider, array( "openid_identifier" => $oid_url));
+          $this->adapter = $this->ha->authenticate($this->provider, array( "openid_identifier" => $this->oid_url));
         }else{
           $this->adapter = $this->ha->authenticate($this->provider);
         }
+        $this->user_profile = $this->adapter->getUserProfile();
         // call Hybrid_Auth::getSessionData() to get stored data
         $this->session = $this->ha->getSessionData();
         //store data in cookies
@@ -79,6 +93,13 @@ class HybridAuthSession
         */
       }catch( Exception $e ){
         error_log('Error when authenticating in HybridAuth: '.$e->getMessage());
+      }
+    }else{
+      if(empty($this->provider)){
+        \FileLogger::error('HybridAuth authentication error - provider not set');
+      }
+      if(empty($this->ha)){
+        \FileLogger::error('HybridAuth authentication error - no HybridAuth instance');
       }
     }
   }
@@ -129,7 +150,16 @@ class HybridAuthSession
    * - institution (optional)
   */
   public function getSessionAttributes(){
-    //TODO
+
+    if(!empty($this->user_profile)){
+      return array(
+        "user_email" => $this->user_profile->email,
+        "user_friendly_name" => $this->user_profile->displayName,
+        "auth_source" => $this->provider,
+      );
+    }
+    \FileLogger::warn('HybridAuthSession::getSessionAttributes - unable to read user profile');
+    return [];
   }
 
   public function getAdapter(){

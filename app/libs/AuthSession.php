@@ -19,6 +19,7 @@ class AuthSession extends \Slim\Middleware
   private $authenticated;
   private $user;
   private $session_config;
+  private $session_attrs;
   private static $instance;
 
   private function __clone() {}
@@ -55,10 +56,22 @@ class AuthSession extends \Slim\Middleware
     $session = self::getInstance(false);
 
     //TODO check attributes
-    $session_info = $session->getSessionAttributes();
+    $session_attrs = $session->getSessionAttributes();
     $attr = array();
-    foreach ($session_info as $key => $value) {
+    foreach ($session_attrs as $key => $value) {
       $attr[$key] = $value;
+    }
+    //ensure a username appears on menu
+    if(empty($attr['user_friendly_name'])){
+      $user = $this->getUser();
+      $d_name = '';
+      if(!empty($user)){
+        $d_name = $user->get_display_name();
+      }
+      if(empty($d_name)){
+        $d_name = _('Unknown user');
+      }
+      $attr['user_friendly_name'] = $d_name;
     }
     $attr["admin"] = $this->isAdmin();
     $attr["authenticated"] = $this->isAuthenticated();
@@ -95,22 +108,33 @@ class AuthSession extends \Slim\Middleware
   */
   public function getSessionAttributes()
   {
-    if($this->validateAuthProvider()){
-      return $this->auth->getSessionAttributes();
+    if(empty($this->session_attrs)){
+      if(!empty($_SESSION[$this->session_config['session_id']]) && !empty($_SESSION[$this->session_config['session_id']]['session_attrs'])){
+        $this->session_attrs = $_SESSION[$this->session_config['session_id']]['session_attrs'];
+      }elseif($this->validateAuthProvider()){
+        //try getting session attributes from auth provider
+        $this->session_attrs = $this->auth->getSessionAttributes();
+      }
     }
+    if(!empty($this->session_attrs)){
+      return $this->session_attrs;
+    }
+    //unable to find session attributes
     return [];
   }
 
+  /* get user from db using session info */
   public function getUser(){
     if(empty($this->user)){
-      $s_data = $this->getSessionAttributes();
-      if(empty($s_data)){
-        return null;
+      if(!empty($_SESSION[$this->session_config['session_id']])){
+        $user = \User::find_by_email($_SESSION[$this->session_config['session_id']]['uuid']);
+        if(!empty($user)){
+          return $user;
+        }
       }
-      $user = \User::find_by_email($s_data['user_email']);
-      if(!empty($user)){
-        return $user;
-      }
+      //cannot find user
+      \FileLogger::warn('AuthSession::getUser could not find user in session data');
+      return false;
     }
     return $this->user;
   }
@@ -142,10 +166,17 @@ class AuthSession extends \Slim\Middleware
 
   public function authenticate($provider = 'rctsaai', $oid_url = ''){
     \FileLogger::debug('Authenticate using '.$provider);
-    $this->setAuthProvider($provider,true);
+    $this->setAuthProvider($provider);
     if(empty($this->auth)){
+      \FileLogger::debug('AuthSession::authenticate - unable to set provider');
       return false;
     }
+    if(AuthProvider::isHybridAuth($provider)){
+        //set provider
+        $this->auth->setProvider($provider);
+        //TODO set oid url
+    }
+    \FileLogger::debug('AuthSession::authenticate - Starting authentication process...');
     //try authenticating
     $this->auth->authenticate();
     #\FileLogger::debug("User is authenticated? ".$this->auth->isAuthenticated());
@@ -153,15 +184,15 @@ class AuthSession extends \Slim\Middleware
     if ($this->auth->isAuthenticated()) {
       $uuid = '';
       if(empty($this->user)){
-        $s_data = $this->auth->getSessionAttributes();
-        $user = \User::find_by_email($s_data['user_email']);
+        $this->session_attrs = $this->auth->getSessionAttributes();
+        $user = \User::find_by_email($this->session_attrs['user_email']);
         $already_authenticated = false;
         if (empty($user) && $this->canCreateUser($provider)) {
           //create user
           $user = \User::create_from_session([
-            'email' => $s_data['user_email'],
-            'name' => $s_data['user_friendly_name'],
-            'auth_id' => $s_data['auth_source'],
+            'email' => $this->session_attrs['user_email'],
+            'name' => $this->session_attrs['user_friendly_name'],
+            'auth_id' => $this->session_attrs['auth_source'],
           ]);
         } elseif (empty($user)){
           //cannot create user
@@ -175,9 +206,9 @@ class AuthSession extends \Slim\Middleware
         if(!empty($user)){
           if ($already_authenticated == false) {
             $user->login();
-            AppLog("login", $user);
           }
           $this->user = $user;
+          AppLog("login", $user);
         }
       }
       if(!empty($this->user)){
@@ -187,7 +218,8 @@ class AuthSession extends \Slim\Middleware
       $_SESSION[$this->session_config['session_id']] = array(
         'provider' => $provider,
         'authenticated' => $this->auth->isAuthenticated(),
-        'uuid' => $uuid
+        'uuid' => $uuid,
+        'session_attrs' => $this->session_attrs,
       );
     }
   }

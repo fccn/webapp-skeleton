@@ -29,11 +29,15 @@ $app->get('/login/:kind', function ($kind) use ($app) {
   //get valid auth schemes
   $valid_auths = [Libs\AuthProvider::$RCTSAAI];
   $social_auths = \SiteConfig::getInstance()->get('hauth_config');
+  #\FileLogger::debug('social auths: '.print_r($valid_auths,true));
   foreach ($social_auths['providers'] as $sa_name => $sa_status) {
     if(!empty($sa_status['enabled'])){
-      $valid_auths << strtolower($sa_name);
+      #\FileLogger::debug('sa_name: '.$sa_name.' status '.print_r($sa_status,true));
+      array_push($valid_auths, strtolower($sa_name));
+      #\FileLogger::debug('valid auths after: '.print_r($valid_auths,true));
     }
   }
+  \FileLogger::debug('valid auths: '.print_r($valid_auths,true));
   if(in_array($kind,$valid_auths)) {
     //get session instance
     $session = Libs\AuthSession::getInstance(false);

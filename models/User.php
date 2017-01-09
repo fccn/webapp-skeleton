@@ -31,6 +31,12 @@ class User extends Model {
 		#$this->save();
 	}
 
+	#Returns a friendly name to display in user menu
+	public function get_display_name(){
+		//TODO modify according to your user model
+		return $this->name;
+	}
+
 	#Registers user logout in database
 	public static function logout($uuid){
 		//TODO change this according to your user model
