@@ -13,3 +13,4 @@ app/config.php
 html/assets/fonts
 locale/pt_PT/LC_MESSAGES/messages.mo
 locale/en_GB/LC_MESSAGES/messages.mo
+conf/apache/*.conf

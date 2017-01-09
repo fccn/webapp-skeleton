@@ -3,7 +3,7 @@ Define WEBAPP_SKT_SERVER_NAME your-server-name
 Define WEBAPP_SKT_HOME path-to-project-base
 Define WEBAPP_SKT_ADMIN server-admin@email
 
-#----- do not change below this line ----
+#----- do not change below this line except for uncommenting hybridauth alias ----
 
 Listen ${WEBAPP_SKT_PORT}
 
@@ -14,7 +14,11 @@ Listen ${WEBAPP_SKT_PORT}
 </Directory>
 
 <VirtualHost *:${WEBAPP_SKT_PORT}>
-	php_value include_path ".:${WEBAPP_SKT_HOME}/models:${WEBAPP_SKT_HOME}/app"
+
+#--- uncomment the following line to enable hybridauth access point
+#  Alias /hybridauth "${WEBAPP_SKT_HOME}/vendor/hybridauth/hybridauth/hybridauth"
+
+  php_value include_path ".:${WEBAPP_SKT_HOME}/models:${WEBAPP_SKT_HOME}/app"
 
 	ServerAdmin ${WEBAPP_SKT_ADMIN}
   DocumentRoot ${WEBAPP_SKT_HOME}/html
