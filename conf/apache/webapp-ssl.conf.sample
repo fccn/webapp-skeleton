@@ -1,0 +1,90 @@
+#-- Sample apache config file to use for your app
+#- do not forget to fill vars with proper information
+#- Its advisable to rename var header 'WEBAPP_SKT' to something that references your project
+
+Define WEBAPP_SKT_PORT 0000
+Define WEBAPP_SKT_SERVER_NAME your-server-name
+Define WEBAPP_SKT_HOME path-to-project-base
+Define WEBAPP_SKT_ADMIN server-admin@email
+
+#---- SSL configs
+Define WEBAPP_SKT_HTTPS_PORT 0001
+Define WEBAPP_SKT_CERT_FILE path-to-crt-cert-file
+Define WEBAPP_SKT_CERT_KEY_FILE path-to-cert-key-file
+Define WEBAPP_SKT_CERT_CHAIN_FILE path-to-cert-chain-file
+
+#----- only change below this line if you know what you are doing ----
+
+Listen ${WEBAPP_SKT_PORT}
+Listen ${WEBAPP_SKT_HTTPS_PORT}
+
+<Directory "${WEBAPP_SKT_HOME}">
+  AllowOverride All
+  Order allow,deny
+  Allow from all
+</Directory>
+
+<VirtualHost *:${WEBAPP_SKT_PORT}>
+  ServerAdmin ${WEBAPP_SKT_ADMIN}
+  DocumentRoot ${WEBAPP_SKT_HOME}/html
+  ServerName ${WEBAPP_SKT_SERVER_NAME}
+  ErrorLog ${WEBAPP_SKT_HOME}/logs/http_error.log
+  
+#-- add additional redirect rules if necessary
+  Redirect permanent / https://${WEBAPP_SKT_SERVER_NAME}:${WEBAPP_SKT_HTTPS_PORT}/
+
+  #--Expires
+
+  Options -Indexes
+
+  ExpiresActive On
+  ExpiresDefault "access plus 10 minutes"
+  ExpiresByType text/javascript "access plus 1 day"
+  ExpiresByType appllication/font-woff "access plus 1 month"
+
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 month"
+
+  <FilesMatch ".*\.php$">
+    Header set Cache-control "no-cache"
+  </FilesMatch>
+
+</VirtualHost>
+
+<VirtualHost *:${WEBAPP_SKT_HTTPS_PORT}>
+  ServerAdmin ${WEBAPP_SKT_ADMIN}
+  DocumentRoot ${WEBAPP_SKT_HOME}/html
+  ServerName ${WEBAPP_SKT_SERVER_NAME}
+  ErrorLog ${WEBAPP_SKT_HOME}/logs/https_error.log
+  CustomLog ${WEBAPP_SKT_HOME}/logs/https_access.log common
+
+  #--- uncomment the following line to enable hybridauth access point
+  #Alias /hybridauth "${WEBAPP_SKT_HOME}/vendor/hybridauth/hybridauth/hybridauth"
+
+  php_value include_path ".:${WEBAPP_SKT_HOME}/models:${WEBAPP_SKT_HOME}/app"
+
+  #Expires
+
+  Options -Indexes
+
+  ExpiresActive On
+  ExpiresDefault "access plus 10 minutes"
+  ExpiresByType text/javascript "access plus 1 day"
+  ExpiresByType appllication/font-woff "access plus 1 month"
+
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 month"
+
+  <FilesMatch ".*\.php$">
+    Header set Cache-control "no-cache"
+  </FilesMatch>
+  
+  SSLEngine on
+  SSLProxyEngine on
+  SSLCertificateFile ${WEBAPP_SKT_CERT_FILE}
+  SSLCertificateKeyFile ${WEBAPP_SKT_CERT_KEY_FILE}
+  SSLCertificateChainFile ${WEBAPP_SKT_CERT_CHAIN_FILE}
+
+</VirtualHost>
