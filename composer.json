@@ -10,7 +10,6 @@
       "slim/views": "0.1.*",
       "twig/twig": "1.*",
       "openid/php-openid": "^2.3",
-      "simplesamlphp/saml2": "^1.7",
       "j4mie/idiorm": "^1.5",
       "monolog/monolog": "1.*",
       "components/jquery": "1.*",
