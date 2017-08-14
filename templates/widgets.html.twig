@@ -106,64 +106,34 @@
   </table>
 {% endmacro %}
 
-{% macro cookieHeaderHTML(config) %}
-
-<section id="cookies" style="display: none;">
-  <div class="container">
-    <div id="cookies_on" class="cookie_frame">
-      <div class="buttons">
-        <a class="btn btn-xs btn-default more" title="{% trans "More about..." %}" href="{{ config.base_path }}/doc/cookies-terms-of-usage">{% trans "More about..." %}</a>
-        <a id="removecookie" class="btn btn-xs btn-primary" href="#" title="{% trans "OK, I ACCEPT" %}">{% trans "Ok, I accept" %}</a>
-      </div>
-      <div class="text">{% trans "The cookies help us to offer this service. By using this service, you accept the usage of cookies." %}</div>
-    </div>
-  </div>
-</section>
-
-{% endmacro %}
-
 
 {% macro cookieHeaderJS() %}
 
-<script type="text/javascript">
-  head.ready('app_utils',function(){
-
-    function readCookie(name) {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(';');
-
-      for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-      }
-      return null;
-    }
-
-    function createCookie(name, value, days) {
-      var expires;
-
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
-      } else {
-        expires = "";
-      }
-
-      document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
-    }
-
-    if (readCookie('cookieeumo') != 1) {
-      $("#cookies").show();
-    }
-
-    $("#removecookie").click(function () {
-      createCookie('cookieeumo', 1, 30);
-      $("#cookies").remove();
+<script>
+  head.ready(document, function(){
+    head.load({cookieconsent: '{{config.base_path}}/js/ext_libs.js.php?lib=cookieconsent'},function(){
+      window.cookieconsent.initialise({
+        "palette": {
+          "popup": {
+            "background": "#252e39"
+          },
+          "button": {
+            "background": "#03A9F4"
+          }
+        },
+        "theme": "edgeless",
+        //"position": "top",
+        //"static": true,
+        "content": {
+          "message": '{% trans "The cookies help us to offer this service. By using this service, you accept the usage of cookies." %}',
+          "dismiss": '{% trans "Ok, I accept" %}',
+          "link": '{% trans "More about..." %}',
+          "href": "{{ config.base_path }}/doc/cookies-terms-of-usage"
+        }
+      });
     });
-
   });
+
 </script>
 
 {% endmacro %}

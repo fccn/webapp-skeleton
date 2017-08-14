@@ -15,6 +15,7 @@
       "components/jquery": "1.*",
       "components/bootstrap" : "3.*",
       "components/bootstrap-default": "^3.3",
+      "eonasdan/bootstrap-datetimepicker" : "^4.17.37",
       "php-console/php-console": "^3.1",
       "ruflin/elastica": "^2.3",
       "jswhetstone/twig-extension": "dev-master",

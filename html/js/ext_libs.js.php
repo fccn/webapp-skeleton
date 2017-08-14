@@ -31,6 +31,9 @@ if($lib = $_GET['lib']){
     case 'datatables_bs_net':
         echo file_get_contents(\SiteConfig::getInstance()->get('node_mods_path').'/datatables.net-bs/js/dataTables.bootstrap.js')."\n";
         break;
+    case 'cookieconsent':
+        echo file_get_contents(\SiteConfig::getInstance()->get('node_mods_path').'/cookieconsent/build/cookieconsent.min.js')."\n";
+        break;
     #--- Add project specific external libs from here on -----
     default:
       # code...
