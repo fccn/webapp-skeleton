@@ -172,7 +172,9 @@ class SAMLSession
   }
 
   public function getIdP(){
-    if($this->getAuthData('saml:sp:IdP')){
+    if(!empty($this->findAttribute('idp:entity-id'))){
+      return $this->findAttribute('idp:entity-id');
+    }else if($this->getAuthData('saml:sp:IdP')){
       return $this->getAuthData('saml:sp:IdP');
     }
     return "";
@@ -214,7 +216,8 @@ class SAMLSession
     return array(
       'user_email' => $this->getEmail(),
       'user_friendly_name' => $this->getFriendlyName(),
-      'auth_source' => $this->getAuthSourceId()
+      'auth_source' => $this->getAuthSourceId(),
+      'idp_entity' => $this->getIdP(),
     );
   }
 
