@@ -60,3 +60,15 @@ Create a basic Slim Micro PHP Framework with Twig, Idiorm and SAML2 to bootstrap
   1. Run **npm install** to install npm dependencies
   1. Run **grunt dist** to prepare final stylesheet for
 1. Configure SimpleSAML authentication
+
+### Prepare for testing
+The project uses the [Codeception](http://codeception.com) test framework to verify the integrity of the application. Codeception is included as a development component.
+
+To initialize the testing component in your project run the following command on the root of the project folder: **codecept bootstrap**. This will create the codeception.yml file and populate the tests folder with the basic configuration.
+
+Acceptance tests may require the phantomjs webdriver to interact with javascript pages. You need to install phantomjs in your development server to be able to run the acceptance tests. Please check the [phantomjs website](http://phantomjs.org/) for information on how to install.
+
+After installing phantomjs please check the port where phantomjs is running and set it accordingly in the *./tests/acceptance.suite.yml* file. You can start the phantomjs server with the default configuration (port 4444) using the script in **./bin/start_phantomjs.sh**.
+
+To run all tests execute **./vendor/bin/codecept run** in the project folder.
+To run just the acceptance tests execute **./vendor/bin/codecept run acceptance** in the project folder.
