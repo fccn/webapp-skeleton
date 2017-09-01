@@ -76,6 +76,18 @@
 
   	public function constructBrandedMessage($message, $text_message = null, $template = 'general')
   	{
+      //load template
+      $email_msg_templates = \SiteConfig::getInstance()->get('email_msg_templates');
+      \FileLogger::debug("WebMailer::constructBrandedMessage - email templates: ".json_encode($email_msg_templates));
+      if(!array_key_exists($template, $email_msg_templates)){
+        \FileLogger::warn("Message template <$template> not configured, reseting to default");
+        if(!array_key_exists('general', $email_msg_templates)){
+          \FileLogger::error("WebMailer::constructBrandedMessage - Cannot send email, no email message templates were configured");
+          return false;
+        }
+        $template = 'general';
+      }
+      $email_template = $email_msg_templates[$template];
   		if ($text_message == null) {
   		  $text_message = 	$this->strip_html($message);
   		}
@@ -104,10 +116,16 @@
   		$html_text = str_replace("  ", " ", $html_text);
   		$html_text = str_replace("> <", "><", $html_text);
 
+      //add images
+      foreach ($email_template as $tag => $source) {
+        $this->addEmbeddedImage($source,$tag);
+      }
+      /*
   		$this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_service_logo' ), 'logo');
   		$this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_top' ), 'top');
   		$this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_bottom' ), 'bottom');
       $this->addEmbeddedImage(\SiteConfig::getInstance()->get ( 'email_message_spacer' ), 'spacer');
+      */
 
   		$this->Body = $html_text;
   		$this->AltBody = $plain_text;

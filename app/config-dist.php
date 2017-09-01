@@ -32,12 +32,16 @@ $c = array(
   "email_from_address" => "service.manager@fccn.pt",
   "email_from_name" => "Service Manager",
   "email_service_address" => "service@fccn.pt",
-  "email_service_logo" => $fs_root . "/html/assets/ico/ms-icon-150x150.png",
-  "email_message_top" => $fs_root . "/html/assets/imgs/top.png",
-  "email_message_bottom" => $fs_root . "/html/assets/imgs/bottom.png",
-  "email_message_spacer" => $fs_root . "/html/assets/imgs/spacer.png",
   "email_subject_prefix" => "Service: ",
-  "email_msg_templates" => ['General'],
+  "email_msg_templates" => array(
+    'general' => array(
+      "logo" => $fs_root . "/html/assets/ico/ms-icon-150x150.png",
+      "top" => $fs_root . "/html/assets/imgs/top.png",
+      "bottom" => $fs_root . "/html/assets/imgs/bottom.png",
+      "spacer" => $fs_root . "/html/assets/imgs/spacer.png",
+    ),
+  ),
+
 
   "repeat-error-message" => 300, // Number of seconds before resending the send message
 

@@ -81,7 +81,7 @@ $app->get('/sendmail', function () use ($app) {
   if ($ss->isAdmin()) {
     $app->render('adm_sendmail.html.twig', [
       "from" => \SiteConfig::getInstance()->get('email_from_address'),
-      "msg_templates" => \SiteConfig::getInstance()->get('email_msg_templates'),
+      "msg_templates" => array_keys(\SiteConfig::getInstance()->get('email_msg_templates')),
     ]);
   }else{#send to unauthorized
     sendToUnauthorized();
@@ -111,7 +111,7 @@ $app->post('/sendmail', function () use ($app) {
 
     $app->render('adm_sendmail.html.twig', [
       "from" => \SiteConfig::getInstance()->get('email_from_address'),
-      "msg_templates" => \SiteConfig::getInstance()->get('email_msg_templates'),
+      "msg_templates" => array_keys(\SiteConfig::getInstance()->get('email_msg_templates')),
       "to" => $to,
       "bcc" => $bcc,
       "subject" => $subject,
