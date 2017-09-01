@@ -148,7 +148,7 @@
           array_push($messages['invalid'],$email);
         }
       }
-      \FileLogger::debug("sending message TO <$emails_to>, BCC: <$bcc>, subject: $this->Subject");
+      \FileLogger::debug("sending message TO <$emails_to>, BCC: <$emails_bcc>, subject: $this->Subject");
       #try sending
       if ($this->send ()) {
       	$messages['status'] = "ok";
