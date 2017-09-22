@@ -55,6 +55,9 @@ class FileLogger{
       case 'INFO':
         $log_lvl = \Monolog\Logger::INFO;
         break;
+      case 'NOTICE':
+        $log_lvl = \Monolog\Logger::NOTICE;
+        break;
       default:
         $log_lvl = \Monolog\Logger::WARNING;
         break;
@@ -64,9 +67,9 @@ class FileLogger{
     $output = "[%level_name%]::%datetime%: %message% %context% %extra%\n";
     //create a formatter
     $formatter = new \Monolog\Formatter\LineFormatter($output, $dateFormat);
-    $stream = new \Monolog\Handler\StreamHandler(\SiteConfig::getInstance()->get('logfile_path'));
+    $stream = new \Monolog\Handler\StreamHandler(\SiteConfig::getInstance()->get('logfile_path'), $log_lvl);
     $stream->setFormatter($formatter);
-    $this->logger->pushHandler($stream, $log_lvl);
+    $this->logger->pushHandler($stream);
   }
 
   public static function getInstance() {
