@@ -110,3 +110,34 @@
 </fieldset>
 </form>
 {% endblock %}
+{% block scripts %}
+<script>
+  head.ready("app_utils",function(){
+    console.log("loading summernote");
+    //load summernote
+    {% set locl = lang.locale ? lang.locale : 'pt_PT' %}
+    head.load([
+      {summernote: '/js/ext_libs.js.php?lib=summernote'},
+      {summernote_ptPT: '/js/ext_libs.js.php?lib=summernote-lang-ptPT'}
+    ], function(){
+      $('#admin_sendmail_form #msgbody').summernote({
+        lang: '{{ locl }}'.replace('_','-'),
+        height: 100,
+        focus: true
+      });
+      $('#admin_sendmail_form #msgbody_loader').hide();
+    });
+
+    //submit admin email form
+    $('#admin_sendmail_form .send-mail').click(function(event) {
+      event.preventDefault();
+      console.log('submitting mail message');
+      sanitize_summernote_html_form('#admin_sendmail_form #msgbody',function(){
+      //submit form
+      $('#admin_sendmail_form').submit();
+      });
+    });
+
+  });
+</script>
+{% endblock %}

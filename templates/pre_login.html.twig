@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Login failed" %}{% endblock %}
+{% block container %}
+<div class="pre-login-msg">
+  <div class="col-md-8">
+    <h1>{% trans "Authentication" %}</h1>
+    {{pre_login_message|raw}}
+    <form method="get" action="{{login_url}}" role="form" id="pre_login_message">
+    <div class="form-group">
+      {% if redirect_url %}
+      <input id="rto" name="rto" type="hidden" value="{{redirect_url}}">
+      {% endif %}
+      <input id="from_pre" name="from_pre" type="hidden" value="true">
+      <div class="checkbox">
+        <label>
+          <input id="dont_show_prelogin_message_again" type="checkbox" title="{% trans "Select" %}" name="dont_show_prelogin_message_again">
+          {% trans "Don't show this message again and go directly to my identity server" %}.
+        </label>
+      </div>
+      <button type="submit" id="pre_login_message_submit" name="pre_login_message_submit" class="btn btn-primary">{% trans "Login" %}</button>
+    </div>
+    </form>
+  </div>
+  <div class="col-md-4 center hidden-xs hidden-sm">
+    <img src="{{config.assets_path}}/imgs/RCTSaai_400x200.png"/ class="img-responsive rctsaai-logo">
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  head.ready("cookie_utils", function() {
+    $("#pre_login_message_submit").click(function(){
+      console.log('entering login page...');
+      if(document.getElementById('dont_show_prelogin_message_again').checked){
+        console.log('creating pre-login message cookie');
+        createCookie('dont_show_prelogin_message_again','yes');
+      }
+      return true;
+    });
+  });
+</script>
+{% endblock %}

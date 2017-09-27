@@ -18,54 +18,56 @@
     <a href="{{ config.base_path }}/admin">{% trans "Return to Admin" %}</a>
 {% endblock %}
 {% block scripts %}
-<script src="{{ config.base_path }}/js/Chart.min.js"></script>
 <script>
+head.ready("app_utils", function() {
+  head.load({charts: '{{ config.base_url}}/js/vendor_libs.js.php?lib=chart_js'}, function(){
+    // Create canvas
+    {% for stat_key, stat_val in global_statistics %}
+    showChart(document.getElementById('{{stat_key}}_parent'),
+      document.getElementById('{{stat_key}}_chart'),
+      [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}"{{ key }}"{%endfor%}],
+      [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}{{ value }}{%endfor%}]);
+    {% endfor %}
 
-// Create canvas
+    function showChart(parent,canvas,labels,data){
+      var ctx = canvas.getContext('2d'),
+        startingData = {
+            labels: labels,
+            datasets: [{
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: data
+            }]
+        };
 
-{% for stat_key, stat_val in global_statistics %}
-showChart(document.getElementById('{{stat_key}}_parent'),
-  document.getElementById('{{stat_key}}_chart'),
-  [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}"{{ key }}"{%endfor%}],
-  [{% for key, value in stat_val %}{% if loop.index0 > 0 %},{% endif %}{{ value }}{%endfor%}]);
-{% endfor %}
+      var wdt=parent.clientWidth-parseInt(parent.style.paddingLeft)-parseInt(parent.style.paddingRight);
+      var ht=parent.clientHeight-parseInt(parent.style.paddingTop)-parseInt(parent.style.paddingBottom);
 
-function showChart(parent,canvas,labels,data){
-  var ctx = canvas.getContext('2d'),
-    startingData = {
-        labels: labels,
-        datasets: [{
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            data: data
-        }]
-    };
+      canvas.setAttribute('height',ht+"px");
+      canvas.setAttribute('width',wdt+"px");
+      // Reduce the animation steps for demo clarity.
+      var optionChart = new Chart(ctx, {
+        type: 'bar',
+        data: startingData,
+        animationSteps: 15
+      });
 
-  var wdt=parent.clientWidth-parseInt(parent.style.paddingLeft)-parseInt(parent.style.paddingRight);
-  var ht=parent.clientHeight-parseInt(parent.style.paddingTop)-parseInt(parent.style.paddingBottom);
+      setInterval(function () {
+        // Get a random index point
+        // var indexToUpdate = Math.round(Math.random() * startingData.labels.length);
 
-  canvas.setAttribute('height',ht+"px");
-  canvas.setAttribute('width',wdt+"px");
-  // Reduce the animation steps for demo clarity.
-  var optionChart = new Chart(ctx).Bar(startingData, {
-    animationSteps: 15
+        /*
+        getData("{{ config.api_path }}/participation?mode=count", function(data) {
+          optionChart.datasets[0].bars[indexToUpdate].value = data[0].count;
+        })
+
+        optionChart.update();
+        */
+      }, 5000);
+    }
   });
-
-  setInterval(function () {
-    // Get a random index point
-    // var indexToUpdate = Math.round(Math.random() * startingData.labels.length);
-
-    /*
-    getData("{{ config.api_path }}/participation?mode=count", function(data) {
-      optionChart.datasets[0].bars[indexToUpdate].value = data[0].count;
-    })
-
-    optionChart.update();
-    */
-  }, 5000);
-}
-
+});
 </script>
 {% endblock %}

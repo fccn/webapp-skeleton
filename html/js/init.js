@@ -7,7 +7,8 @@ head.load({jquery: '/js/ext_libs.js.php?lib=jquery'}, function(){
   //jquery dependent libs
   head.load({moment: '/js/ext_libs.js.php?lib=moment'},
     {chart_js: '/js/ext_libs.js.php?lib=chart_js'},
-    {page_loader: '/js/page_loader.min.js'}
+    {page_loader: '/js/page_loader.min.js'},
+    {cookie_utils: '/js/cookie_utils.min.js' }
     //---- additional project specific libs ---
   );
   //load bootstrap and themes

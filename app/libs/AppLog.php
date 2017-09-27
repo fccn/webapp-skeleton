@@ -87,6 +87,14 @@ class FileLogger{
     FileLogger::getInstance()->logger->warning($message);
   }
 
+  public static function info($message){
+    FileLogger::getInstance()->logger->info($message);
+  }
+
+  public static function notice($message){
+    FileLogger::getInstance()->logger->notice($message);
+  }
+
   public static function debug($message){
     FileLogger::getInstance()->logger->debug($message);
   }

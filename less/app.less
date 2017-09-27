@@ -4,12 +4,24 @@ Custom Styles go in this file, bootstrap variables in bootstrap/variables.less
 */
 @import '../vendor/components/bootstrap/less/bootstrap.less';
 @import '../vendor/components/font-awesome/less/font-awesome.less';
-@icon-font-path:  "../assets/fonts/";
-@fa-font-path:        "../assets/fonts";
-@color_nav_p: #f8f8f8;
-@color_nav_s: #e7e7e7;
-@color_footer_p: @color_nav_p;
-@color_footer_s: @color_nav_s;
+@import '../vendor/eonasdan/bootstrap-datetimepicker/src/less/_bootstrap-datetimepicker.less';
+@import '../node_modules/summernote/src/less/summernote.less';
+@import '_variables.less';
+/* --- add other imports here ---- */
+
+/* ------------ reusable components ------------ */
+
+/* pre-login message */
+.pre-login-msg{
+  img.rctsaai-logo{
+    margin-top: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 50px;
+  }
+}
+
+/* ------------ ./reusable components ------------ */
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -72,3 +84,9 @@ body {
 .align-right {
   text-align: right;
 }
+
+/* -------------- css imports ------------------------- */
+@import (inline) "../node_modules/datatables.net-bs/css/dataTables.bootstrap.css";
+@import (inline) '../node_modules/cookieconsent/build/cookieconsent.min.css';
+
+/* ----- Add other CSS imports here -----------*/
