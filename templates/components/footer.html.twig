@@ -1,0 +1,17 @@
+{# template for footer #}
+{% block footer %}
+<div id="footer_container" class="footer">
+    <div id="app_footer" class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          FCT|FCCN {{current_year}}
+        </div>
+        <div class="col-xs-6 align-right">
+          <a href="{{ config.base_path }}/doc/help">{% trans "Help" %}</a> |
+          <a href="{{ config.base_path }}/doc/credits">{% trans "Credits" %}</a>
+        </div>
+        <!-- additional footer content -->
+      </div>
+    </div>
+</div>
+{% endblock %}

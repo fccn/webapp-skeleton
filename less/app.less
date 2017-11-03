@@ -1,0 +1,99 @@
+/*
+Appplication specific stylesheet
+Custom Styles go in this file, bootstrap variables in bootstrap/variables.less
+*/
+@import '../vendor/components/bootstrap/less/bootstrap.less';
+@import '../vendor/components/font-awesome/less/font-awesome.less';
+@import '../vendor/eonasdan/bootstrap-datetimepicker/src/less/_bootstrap-datetimepicker.less';
+@import '_variables.less';
+/* --- add other imports here ---- */
+
+/* ------------ reusable components ------------ */
+
+/* pre-login message */
+.pre-login-msg{
+  img.rctsaai-logo{
+    margin-top: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 50px;
+  }
+}
+
+/* ------------ ./reusable components ------------ */
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin top by navbar height */
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  background-color: white;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -@footer_height; /* the bottom margin is the negative value of the footer's height */
+}
+
+/* --------- Footer --------------------- */
+
+#footer_container{
+  width:100%;
+  border-top:solid 1px @color_footer_b;
+  background-color: @color_footer_p;
+}
+
+.footer, .push {
+    height: @footer_height; /* .push must be the same height as .footer */
+}
+
+.navbar-default {
+  background-color: @color_nav_p;
+  border-color: @color_nav_s;
+}
+
+/* ----------- Cookie frame ------------------- */
+
+.cookie_frame {
+  padding: 10px 10px;
+  color: white;
+  background-color: gray;
+  margin: 0px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cookie_frame .text {
+}
+
+.cookie_frame .buttons {
+  float: right;
+}
+
+/* --------- HELPERS --------------------- */
+
+.nopadding {
+  padding: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* -------------- css imports ------------------------- */
+@import (inline) "../node_modules/datatables.net-bs/css/dataTables.bootstrap.css";
+@import (inline) '../node_modules/cookieconsent/build/cookieconsent.min.css';
+
+/* ----- Add other CSS imports here -----------*/

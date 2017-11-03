@@ -1,0 +1,9 @@
+<?php
+/*
+* This is a sample of the main configuration file. Place all required configuration settings
+* here with dummy values. When publishing the site copy this file to config.php and
+* place the real configuration settings there.
+*
+* The config.php file is listed in .gitignore so you can put sensitive configuration values there
+* without them being stored in git.
+*/
