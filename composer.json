@@ -28,7 +28,9 @@
       "phpmailer/phpmailer": "^5.2",
       "components/font-awesome" : "^4.6",
       "hybridauth/hybridauth" : "^2.7",
-      "ircmaxell/random-lib" : "dev-master"
+      "ircmaxell/random-lib" : "dev-master",
+        "solarium/solarium": "^3.8",
+        "minimalcode/search": "^1.0"
     },
 
     "require-dev": {

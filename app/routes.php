@@ -18,6 +18,10 @@ $app->group('/admin', function() use ($app) {
     require_once "routes/admin.php";
 });
 
+$app->group('/search', function() use ($app) {
+    require_once "routes/search.php";
+});
+
 #--- helper functions
 function getSession($force_login = false){
   \FileLogger::debug('getting session info');

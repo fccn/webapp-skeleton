@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "search page" %}{% endblock %}
+{% block container %}
+<form method="post" action="search/results" role="form" id="search_form">
+  <label>Search:</label>
+  <input type="text" name="textsearch" id="textsearch"/>
+  <input type="submit">
+</form>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

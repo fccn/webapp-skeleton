@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "search page" %}{% endblock %}
+{% block container %}
+<div class="search-results">
+  {% for result in result_set %}
+      {#{ dump(result) }#}
+      <p>
+        {{ result.ext_id_ss }} :: {{ result.name_texts|first }}
+      </p>
+  {% endfor %}
+</div>
+<div>
+  <pre>
+    {{ dump(result_set) }}
+  </pre>
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
