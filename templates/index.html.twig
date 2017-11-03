@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+{% block title %}{% trans "Homepage" %}{% endblock %}
+{% block container %}
+  <h1>{% trans "Wellcome" %}</h1>
+  {{ intro|raw }}
+  <p>Install path is: {{config.install_path}}</p>
+  <p>{% trans "Locale is" %}: {{lang.label}}</p>
+  <p>{% trans %} This is an example translation with variable, number is {{number}}{% endtrans %}</p>
+  <p>{{ gt_trans }}</p>
+{% endblock %}

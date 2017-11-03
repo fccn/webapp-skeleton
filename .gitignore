@@ -1,0 +1,8 @@
+composer.phar
+/vendor/
+/components/
+/node_modules/
+/cache/
+/logs/**
+tests/_data/logs/**
+.remote-sync.json

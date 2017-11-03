@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-26 17:34+0000\n"
+"PO-Revision-Date: 2015-11-26 17:34+0000\n"
+"Last-Translator: Paulo Costa <paulo.costa@fccn.pt>\n"
+"Language-Team: STV FCCN <stv@asa.fccn.pt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: ../cache/db_dump.php:3
+msgid "English flag"
+msgstr ""
+
+#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:35
+msgid "Locale is"
+msgstr ""
+
+#: ../cache/db_dump.php:4
+msgid "Portuguese flag"
+msgstr ""
+
+#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:41
+msgid "This is an example translation with variable, number is %number%"
+msgstr ""
+
+#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:23
+msgid "Wellcome"
+msgstr ""
+
+#: ../cache/db_dump.php:2
+msgid "anonymous"
+msgstr ""
+
+#: ../app/routes.php:19
+msgid "this was translated on the controller"
+msgstr ""

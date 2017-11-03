@@ -1,0 +1,21 @@
+{
+  "name": "webapp-skeleton",
+  "version": "2.0.1",
+  "license": "MIT",
+  "repository": "https://gitlab.fccn.pt/stv-servico-tecnico-de-video/webapp-skeleton.git",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~1.1.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-copy": "~0.8.2",
+    "grunt-xgettext": "~0.3.5"
+  },
+  "dependencies": {
+    "bootbox": "^4.4.0",
+    "chart.js": "^2.7.0",
+    "cookieconsent": "^3.0.4",
+    "datatables.net": "^1.10.16",
+    "datatables.net-bs": "^1.10.16",
+    "headjs": "^1.0.3"
+  }
+}
