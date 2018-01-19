@@ -6,3 +6,4 @@ composer.phar
 /logs/**
 tests/_data/logs/**
 .remote-sync.json
+app/config.php
