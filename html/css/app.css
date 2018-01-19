@@ -9449,9 +9449,12 @@ button.close {
 /* ------------ ./reusable components ------------ */
 /* Sticky footer styles
 -------------------------------------------------- */
+html,
+body {
+  height: 100%;
+}
 html {
   position: relative;
-  min-height: 100%;
 }
 body {
   /* Margin top by navbar height */

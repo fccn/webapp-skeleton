@@ -6,8 +6,8 @@
 head.load({jquery: '/script/lib/jquery'}, function(){
   //jquery dependent libs
   head.load({moment: '/script/lib/moment'},
-    {page_loader: '/js/page_loader.min.js'},
-    {cookie_utils: '/js/cookie_utils.min.js' }
+    {page_loader: '/script/lib/page_loader'},
+    {cookie_utils: '/script/lib/cookie_utils' }
     //---- additional common libs ---
   );
   //load bootstrap and themes

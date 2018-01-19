@@ -24,15 +24,20 @@ Custom Styles go in this file, bootstrap variables in bootstrap/variables.less
 
 /* Sticky footer styles
 -------------------------------------------------- */
+
+html,
+body{
+  height: 100%;
+}
+
 html {
   position: relative;
-  min-height: 100%;
 }
 
 body {
   /* Margin top by navbar height */
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: @footer_height;
   background-color: white;
 }
 
