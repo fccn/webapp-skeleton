@@ -15,11 +15,14 @@
         "slim/twig-view": "^2.3",
         "twig/extensions": "^1.5",
         "jswhetstone/twig-extension": "dev-master",
-        "fccn/webapp-tools/translate": "dev-master",
         "components/jquery": "^3.2",
         "components/bootstrap": "^3.3",
         "components/bootstrap-default": "^3.3",
-        "eonasdan/bootstrap-datetimepicker": "^4.17"
+        "eonasdan/bootstrap-datetimepicker": "^4.17",
+        "components/font-awesome": "^4.7",
+        "fccn/webapp-tools-common-js": "dev-master",
+        "fccn/webapp-tools-translate": "dev-master",
+        "dflydev/fig-cookies": "^1.0@dev"
     },
     "require-dev": {
         "codeception/codeception": "^2.3",
@@ -28,7 +31,7 @@
     "autoload":{
       "psr-4": {
         "Fccn\\Lib\\": "app/lib",
-        "Fccn\\WsUtils\\": "app/wsutils"
+        "Fccn\\WebComponents\\": "lib/web_components"
       }
     },
     "autoload-dev": {
@@ -43,6 +46,20 @@
     "scripts": {
         "start": "php -S 0.0.0.0:9090 -t html/",
         "test": "codecept"
-    }
+    },
+    "repositories": [
+          {
+              "type": "vcs",
+              "url": "git@gitlab.fccn.pt:PCosta/wt-common-js.git"
+          },
+          {
+              "type": "vcs",
+              "url": "git@gitlab.fccn.pt:PCosta/wt-web-components.git"
+          },
+          {
+            "type": "vcs",
+            "url": "https://github.com/tboronczyk/localization-middleware"
+          }
+    ]
 
 }

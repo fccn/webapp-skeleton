@@ -8,7 +8,6 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-
 $app->get('/', function (Request $request, Response $response, array $args) {
     // Sample log message
     $this->logger->info("Slim-Skeleton '/' route");
@@ -20,7 +19,9 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     ]);
 });
 
+$app->get('/utils/setlang/{lang}', Fccn\WebComponents\SwitchLanguageAction::class);
+
 #handle script requests in routes/script.php
-$app->group('/script', function() use ($app) {
+$app->group('/script', function () use ($app) {
     require_once "routes/script.php";
 });

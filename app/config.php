@@ -13,8 +13,14 @@ $fs_root = "/opt/webapp_skeleton_v2"; //point to the project root folder
 $app_env = "development"; //possible options 'development','production','staging'
 $full_url = "http://devel-stv.fccn.pt:9090"; //public url of the site
 
-$templates_path =  __DIR__ . '/../templates';
-$cache_path = __DIR__ . '/../cache';
+$templates_path =  array(
+  0 => __DIR__ . '/../templates', //set the base template path
+  //add other namespaces to twig, in the form of 'namespace' => 'path/to/twig/templates'
+);
+$cache_path = $fs_root . '/cache';
+$node_mods_path = $fs_root.'/node_modules/';
+$vendor_path = $fs_root.'/vendor/';
+
 
 $log_level = "DEBUG";
 if ($app_env == 'production') {
@@ -58,8 +64,8 @@ $c = array(
 
 //--------     Web utilities settings      -------------------
 
-  "vendor_path"     => __DIR__."/../vendor/",
-  "node_mods_path"  => __DIR__."/../node_modules/",
+  "vendor_path"     => $vendor_path,
+  "node_mods_path"  => $node_mods_path,
 
 //--------     locale settings           -------------------
   "defaultLocale"      => "pt_PT",          # Setup the default locale
@@ -76,9 +82,34 @@ $c = array(
    "locale_path"        => __DIR__ . "/../locale", #path of the locale folder
    "locale_cookie_name" => "locale",    #name of the cookie to store locale information
 
+   #TODO add this to translate collection
+   "locale_cookie_path" => "/",     #relative path of the locale cookie
+   "locale_param_name" => "lang",    #name of the URL param to store locale information
+   "request_attribute_name" => "locale", #name of the request attribute to store locale info
+   #-- end
+
    #-twig parser configurations
    "twig_parser_templates_path" => $templates_path,   #path for twig templates folder
    "twig_parser_cache_path" => $cache_path,            #path for cache folder
+
+//-------- Web components settings -----------------------------
+
+//---- External libraries loader --------------------
+  "ext_libs" => array(
+      "headjs" => $node_mods_path."/headjs/dist/1.0.0/head.min.js",
+      "jquery" => $vendor_path.'/components/jquery/jquery.min.js',
+      "moment" => $vendor_path.'/moment/moment/min/moment-with-locales.min.js',
+      "bootstrap" => $vendor_path.'/components/bootstrap/js/bootstrap.min.js',
+      "bootbox" => $node_mods_path.'/bootbox/bootbox.min.js',
+      "datetimepicker" => $vendor_path.'/eonasdan/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+      "cookieconsent" => $node_mods_path.'/cookieconsent/build/cookieconsent.min.js',
+      "datatables_net" => $node_mods_path.'/datatables.net/js/jquery.dataTables.js',
+      "datatables_net_bs" => $node_mods_path.'/datatables.net-bs/js/dataTables.bootstrap.js',
+      "chartjs" => $node_mods_path.'/chart.js/dist/Chart.min.js',
+      "cookie_utils" => $vendor_path.'/fccn/webapp-tools/common-js/dist/cookie_utils.min.js',
+      "page_loader" => $vendor_path.'/fccn/webapp-tools/common-js/dist/page_loader.min.js',
+      #-- additional external libraries
+    ),
 
 //-------- additional settings -------------------
 
