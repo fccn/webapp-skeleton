@@ -19,9 +19,13 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     ]);
 });
 
+#handle language switching
 $app->get('/utils/setlang/{lang}', Fccn\WebComponents\SwitchLanguageAction::class);
 
-#handle script requests in routes/script.php
-$app->group('/script', function () use ($app) {
-    require_once "routes/script.php";
-});
+#handle script requests to load external libraries
+$app->get('/script/lib/{libname}', Fccn\WebComponents\LoadExternalJsAction::class)->setName('ext_libs');
+
+//--- include other routes defined in routes folder
+foreach (glob("routes/*.php") as $filename) {
+    include $filename;
+}

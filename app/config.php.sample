@@ -7,3 +7,138 @@
 * The config.php file is listed in .gitignore so you can put sensitive configuration values there
 * without them being stored in git.
 */
+
+/*
+* ------------- common vars to be used on file --------------------
+* You can add as many vars here as you wish
+*/
+
+$fs_root = ""; #point to the project root folder without the trailing slash
+$app_env = "development"; #possible options 'development','production','staging'
+$full_url = ""; #public url of the site with port number if different from 80 or 443 and without the trailing slash
+
+$templates_path =  array(
+  0 => __DIR__ . '/../templates', #set the base template path
+  'web_components' => __DIR__ . '/../vendor/fccn/webapp-tools-web-components/templates',
+  //add other template namespaces to twig, in the form of 'namespace' => 'path/to/twig/templates'
+);
+$cache_path = $fs_root . '/cache';    #path for cache
+$node_mods_path = $fs_root.'/node_modules/';  #path for nodejs module install folder
+$vendor_path = $fs_root.'/vendor/'; #path for composer modules install folder
+
+
+$log_level = "DEBUG";     #set general log level
+if ($app_env == 'production') {
+    $log_level = "WARNING"; #default log level for production environments
+}
+
+/*
+* ---------------- the configuration array ----------
+* make sure it is called $c
+*/
+$c = array(
+//-------- common application settings -------------------
+//- path settings
+  "install_path"    => $fs_root,
+  "base_path"       => "",
+  "assets_path"     => "/assets",
+  "full_url" => $full_url,
+//- application settings
+  "app_id"          => "unique-id-for-app",
+  "app_name"        => "webapp_skeleton",
+  "app_author"      => "application-autor",
+  "app_title"       => "provide a title for you application here",
+  "app_description" => "A small description for your application",
+  "app_domain"	    => "app-domain",
+  "app_logo"	    => "$full_url/assets/ico/favicon-96x96.png", #full path to application logo
+
+//- slim settings
+  'app_mode' => $app_env,   #slim application mode - derived from application environment
+  'slim_settings' => [
+      'displayErrorDetails' => $app_env == "production" ? false : true,
+      'addContentLengthHeader' => false, #Allow the web server to send the content-length header
+      'debug' => $app_env == "production" ? false : true,
+    ],
+
+  'twig_templates_path' => $templates_path,
+  'twig_cache_path' => $cache_path,
+  'twig_debug' => $app_env == "production" ? false : true,
+
+//--------     logging            --------------------------
+
+  "logfile_path"    => __DIR__ . '/../logs/application.log',   //path for application logs
+  "logfile_level"  => $log_level,
+
+//--------     Web utilities settings      -------------------
+
+  "vendor_path"     => $vendor_path,
+  "node_mods_path"  => $node_mods_path,
+
+//--------     locale settings           -------------------
+  "defaultLocale"      => "pt_PT",          # Setup the default locale
+  "defaultLocaleLabel" => "PT",             # and default locale label
+  "locale_selection"   => "cookie",          # locale selection method, can be 'param' if locale to be set up by a url parameter, or 'cookie' if  locale is set up by cookie
+
+   #- array of available locales
+   "locales" => array(
+                  array("label" => "GB", "locale" => "en_GB", "flag_alt" => "English flag", "language" => "English"),
+                  array("label" => "PT", "locale" => "pt_PT", "flag_alt" => "Portuguese flag", "language" => "Português"),
+                  # add other languages here....
+                ),
+
+   "locale_textdomain"  => "messages",
+   "locale_path"        => __DIR__ . "/../locale", #path of the locale folder
+   "locale_cookie_name" => "locale",    #name of the cookie to store locale information
+
+   "locale_cookie_path" => "/",     #relative path of the locale cookie
+   "locale_param_name" => "lang",    #name of the URL param to store locale information
+   "request_attribute_name" => "locale", #name of the request attribute to store locale info
+
+   #-twig parser configurations
+   "twig_parser_templates_path" => $templates_path,   #path for twig templates folder
+   "twig_parser_cache_path" => $cache_path,            #path for cache folder
+
+//-------- Web components settings -----------------------------
+
+//---- External libraries loader --------------------
+
+   "ext_libs_loader_service_name" => 'loader',  #name of the loader service in Slim container
+
+   "ext_libs" => array(
+      "headjs" => $node_mods_path."/headjs/dist/1.0.0/head.min.js",
+      "head.min.js.map" => $node_mods_path."/headjs/dist/1.0.0/head.min.js.map",
+      "jquery" => $vendor_path.'/components/jquery/jquery.min.js',
+      "moment" => $vendor_path.'/moment/moment/min/moment-with-locales.min.js',
+      "bootstrap" => $vendor_path.'/components/bootstrap/js/bootstrap.min.js',
+      "bootbox" => $node_mods_path.'/bootbox/bootbox.min.js',
+      "datetimepicker" => $vendor_path.'/eonasdan/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+      "cookieconsent" => $node_mods_path.'/cookieconsent/build/cookieconsent.min.js',
+      "datatables_net" => $node_mods_path.'/datatables.net/js/jquery.dataTables.js',
+      "datatables_net_bs" => $node_mods_path.'/datatables.net-bs/js/dataTables.bootstrap.js',
+      "chartjs" => $node_mods_path.'/chart.js/dist/Chart.min.js',
+      "cookieconsent" => $node_mods_path.'/cookieconsent/build/cookieconsent.min.js',
+      "cookie_utils" => $vendor_path.'/fccn/webapp-tools-common-js/dist/cookie_utils.min.js',
+      "page_loader" => $vendor_path.'/fccn/webapp-tools-common-js/dist/page_loader.min.js',
+      #-- additional external libraries
+    ),
+
+//---- Slim Middleware loader --------------------
+
+   "slim_middlewares" => array(
+      #-- put additional middleware classes here in the form
+      # "my_middleware" => new Middleware\Middleware()
+   ),
+
+//-------- twig widget settings ------------------
+
+    "cookie_header_terms_path" => "/doc/cookies-terms-of-usage",
+
+//--------- Analitics data (by default is enabled only in production) ----------
+
+    "google_analytics" => "",
+
+//-------- additional settings -------------------
+
+
+
+);

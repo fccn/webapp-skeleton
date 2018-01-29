@@ -1,7 +1,7 @@
-{# import "socialMedia.html.twig" as socialMedia %#}
-{# import "widgets.html.twig" as widget %#}
+{% import "@web_components/social_media.html.twig" as social_media %}
+{% import "components/widgets.html.twig" as widgets %}
 <!DOCTYPE html>
-<html lang="{{ lang.locale }}" ng-app="{{ config.app_id }}">
+<html lang="{{ lang.current_locale }}" ng-app="{{ config.app_id }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,8 +10,11 @@
     <meta name="author" content="{{ config.app_author }}">
     {% block meta %}{% endblock %}
 
-    {#{ socialMedia.facebook_head(config) }#}
-    {#{ socialMedia.twitter_head(config) }#}
+    {% block social %}
+    {# allow override of social media metadata #}
+    {{ social_media.facebook_head(config.app_title,config.full_url,config.app_logo,config.app_description) }}
+    {{ social_media.twitter_head(config.app_name,config.app_title,config.app_description,config.app_domain) }}
+    {% endblock %}
 
     <link rel="shortcut icon" href="{{ config.base_path }}/assets/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="{{ config.assets_path }}/ico/apple-icon-57x57.png">
@@ -72,9 +75,11 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-{#{ widget.cookieHeaderJS }#}
+{{ widgets.js_cookie_header(config) }}
 {% block scripts %}{% endblock %}
-{#{ socialMedia.google_analytics_script(config) }#}
+{% if config.app_mode == 'production' %}
+  {{ social_media.google_analytics_script(config.google_analytics) }}
+{% endif %}
 {% block admin_scripts %}
 {% endblock %}
 </html>

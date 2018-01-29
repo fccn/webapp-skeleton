@@ -6,16 +6,36 @@ msgstr ""
 "PO-Revision-Date: 2015-11-26 17:34+0000\n"
 "Last-Translator: Paulo Costa <paulo.costa@fccn.pt>\n"
 "Language-Team: STV FCCN <stv@asa.fccn.pt>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
+
+#: ../cache/e8/e89e08292c8f9a8c535f27cc35054515aa02f38f7b88200566726c12d93205a3.php:46
+msgid "Credits"
+msgstr ""
 
 #: ../cache/db_dump.php:3
 msgid "English flag"
 msgstr ""
 
-#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:35
+#: ../cache/e8/e89e08292c8f9a8c535f27cc35054515aa02f38f7b88200566726c12d93205a3.php:40
+msgid "Help"
+msgstr ""
+
+#: ../cache/0a/0a0a607e9dc21e808133f1dcaaf14c0767b41eeb4b1422fb6c94f4ae1fdbf67f.php:52
+msgid "Home"
+msgstr ""
+
+#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:31
+msgid "Homepage"
+msgstr ""
+
+#: ../cache/f6/f6c41a1289fc1a27203ec17e995073fb877b63dad1d2fc40be3dab03fe0d771e.php:41
+msgid "Language"
+msgstr ""
+
+#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:51
 msgid "Locale is"
 msgstr ""
 
@@ -23,11 +43,11 @@ msgstr ""
 msgid "Portuguese flag"
 msgstr ""
 
-#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:41
+#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:57
 msgid "This is an example translation with variable, number is %number%"
 msgstr ""
 
-#: ../cache/82/8260dd10845ec07f87c5528ebced008c42477f8b714e04c7dccab22dee120985.php:23
+#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:39
 msgid "Wellcome"
 msgstr ""
 
@@ -35,6 +55,6 @@ msgstr ""
 msgid "anonymous"
 msgstr ""
 
-#: ../app/routes.php:19
+#: ../app/routes.php:18
 msgid "this was translated on the controller"
 msgstr ""

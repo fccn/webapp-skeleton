@@ -1,5 +1,5 @@
 {# template for navbar #}
-{% import "components/widgets.html.twig" as ws_components %}
+{% import "@web_components/widgets.html.twig" as ws_widgets %}
 {% block navbar %}
 <nav class="navbar navbar-default navbar-static-top " role="navigation">
   <div class="container">
@@ -20,7 +20,7 @@
       </ul>
       <ul class="nav navbar-nav pull-right">
         <!-- navbar right -->
-        {{ ws_components.language_dropdown(config.locales,lang.label) }}
+        {{ ws_widgets.language_dropdown(config.locales,lang.current_lang) }}
         <!-- ./navbar right -->
       </ul>
     </div><!--/.nav-collapse -->

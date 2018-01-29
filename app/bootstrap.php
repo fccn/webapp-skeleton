@@ -55,13 +55,12 @@ $container['logger'] = function ($cnt) {
 };
 
 //setup locale utilities with Locale
+
 $container['locale'] = function ($cnt) {
-    $locale = new \Fccn\Lib\Locale();
-    $current_lang = $locale->getCurrentLang();
+    $locale = new Fccn\Lib\Locale(array('slim_middleware' => true));
+    #$current_lang = $locale->getCurrentLang();
     #add global lang var
-    $cnt->view->getEnvironment()->addGlobal('lang', array("label" => \Fccn\Lib\Locale::getLabelFromLocale($current_lang),
-                                  "locale" => $current_lang,
-                                  "obj" => $locale));
+    $cnt->view->getEnvironment()->addGlobal('lang', $locale);
     return $locale;
 };
 
