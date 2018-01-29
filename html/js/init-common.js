@@ -1,13 +1,12 @@
 /*
  * asyncronous load of common javascript libraries included in composer and npm
- * TODO move to ws-utils project
  */
 
 head.load({jquery: '/script/lib/jquery'}, function(){
   //jquery dependent libs
   head.load({moment: '/script/lib/moment'},
-    {page_loader: '/js/page_loader.min.js'},
-    {cookie_utils: '/js/cookie_utils.min.js' }
+    {cookie_utils: '/script/lib/cookie_utils' },
+    {cookieconsent: '/script/lib/cookieconsent' }
     //---- additional common libs ---
   );
   //load bootstrap and themes

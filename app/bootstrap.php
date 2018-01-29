@@ -16,8 +16,8 @@ $container = $app->getContainer();
 
 // Register application configurations
 $container['config'] = function ($cnt) {
-  $config = \Fccn\Lib\SiteConfig::getInstance();
-  return $config;
+    $config = \Fccn\Lib\SiteConfig::getInstance();
+    return $config;
 };
 
 //setup view renderer
@@ -31,6 +31,9 @@ $container['view'] = function ($cnt) {
         'autoescape' => true,
         'debug' => \Fccn\Lib\SiteConfig::getInstance()->get('twig_debug'),
     ]);
+
+    #add additional paths
+    #$view->getLoader()->setPaths($path, $namespace)
 
     // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $cnt['request']->getUri()->getBasePath()), '/');
@@ -52,22 +55,19 @@ $container['logger'] = function ($cnt) {
 };
 
 //setup locale utilities with Locale
+
 $container['locale'] = function ($cnt) {
-  $locale = new \Fccn\Lib\Locale();
-  $current_lang = $locale->getCurrentLang();
-  #add global lang var
-  $cnt->view->getEnvironment()->addGlobal('lang', array("label" => \Fccn\Lib\Locale::getLabelFromLocale($current_lang),
-                                  "locale" => $current_lang,
-                                  "obj" => $locale));
-  return $locale;
+    $locale = new Fccn\Lib\Locale(array('slim_middleware' => true));
+    #$current_lang = $locale->getCurrentLang();
+    #add global lang var
+    $cnt->view->getEnvironment()->addGlobal('lang', $locale);
+    return $locale;
 };
 
 //setup library loader
 $container['loader'] = function ($cnt) {
-  $loader = \Fccn\WsUtils\ExtLibsLoader::getInstance();
-  //put application specific libs here
-  #$loader->addLib("name", "path");
-  return $loader;
+    $loader = \Fccn\WebComponents\ExtLibsLoader::getInstance();
+    return $loader;
 };
 
 

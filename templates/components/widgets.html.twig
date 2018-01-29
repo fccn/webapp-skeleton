@@ -1,0 +1,29 @@
+
+{% macro js_cookie_header(config) %}
+
+<script>
+  head.ready("cookieconsent", function(){
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#252e39"
+        },
+        "button": {
+          "background": "#03A9F4"
+        }
+      },
+      "theme": "edgeless",
+      //"position": "top",
+      //"static": true,
+      "content": {
+        "message": '{% trans "The cookies help us to offer this service. By using this service, you accept the usage of cookies." %}',
+        "dismiss": '{% trans "Ok, I accept" %}',
+        "link": '{% trans "More about..." %}',
+        "href": "{{ config.base_path }}{{config.cookie_header_terms_path}}"
+      }
+    });
+  });
+
+</script>
+
+{% endmacro %}

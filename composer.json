@@ -10,16 +10,20 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.0",
         "slim/slim": "^3.1",
         "slim/twig-view": "^2.3",
         "twig/extensions": "^1.5",
-        "jswhetstone/twig-extension": "dev-master",
-        "fccn/webapp-tools/translate": "dev-master",
         "components/jquery": "^3.2",
         "components/bootstrap": "^3.3",
         "components/bootstrap-default": "^3.3",
-        "eonasdan/bootstrap-datetimepicker": "^4.17"
+        "eonasdan/bootstrap-datetimepicker": "^4.17",
+        "components/font-awesome": "^4.7",
+        "jswhetstone/twig-extension": "dev-master",
+        "fccn/webapp-tools-translate": "^1.1",
+        "fccn/webapp-tools-common": "^1.0",
+        "fccn/webapp-tools-web-components": "dev-master",
+        "fccn/webapp-tools-common-js": "dev-master"
     },
     "require-dev": {
         "codeception/codeception": "^2.3",
@@ -27,8 +31,7 @@
     },
     "autoload":{
       "psr-4": {
-        "Fccn\\Lib\\": "app/lib",
-        "Fccn\\WsUtils\\": "app/wsutils"
+        "Fccn\\WebComponents\\": "lib/web_components"
       }
     },
     "autoload-dev": {
@@ -36,13 +39,22 @@
             "Fccn\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
     "config": {
         "process-timeout" : 0
     },
     "scripts": {
         "start": "php -S 0.0.0.0:9090 -t html/",
         "test": "codecept"
-    }
+    },
+    "repositories": [
+          {
+              "type": "vcs",
+              "url": "git@gitlab.fccn.pt:PCosta/wt-common-js.git"
+          },
+          {
+              "type": "vcs",
+              "url": "git@gitlab.fccn.pt:PCosta/wt-web-components.git"
+          }
+    ]
 
 }

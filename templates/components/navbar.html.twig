@@ -1,4 +1,5 @@
 {# template for navbar #}
+{% import "@web_components/widgets.html.twig" as ws_widgets %}
 {% block navbar %}
 <nav class="navbar navbar-default navbar-static-top " role="navigation">
   <div class="container">
@@ -19,17 +20,7 @@
       </ul>
       <ul class="nav navbar-nav pull-right">
         <!-- navbar right -->
-        <li class="dropdown {{ getActiveClass('/help') }} navbar-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Language" %}<b class="caret"></b></a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownLanguageMenu">
-            {% for locale in config.locales %}
-            <li class="{{ lang.label == locale.label ? 'active' }}" role="presentation" id="menuLang_{{ locale.locale }}">
-              <a role="menuitem" href='{{ config.base_path }}/utils/setlang/{{ locale.label }}'>
-              <img alt='{{ locale.flag_alt | translate }}' src='{{ config.base_path }}/assets/imgs/flags/gif/{{ locale.label | lower }}.gif'/> {{ locale.language }}</a>
-            </li>
-            {% endfor %}
-          </ul>
-        </li>
+        {{ ws_widgets.language_dropdown(config.locales,lang.current_lang) }}
         <!-- ./navbar right -->
       </ul>
     </div><!--/.nav-collapse -->

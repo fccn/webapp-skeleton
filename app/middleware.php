@@ -7,13 +7,11 @@
 use \Fccn\Lib\FileLogger;
 use \Fccn\Lib\SiteConfig;
 
-//Add locale utilities
-$app->add(function ($request, $response, $next) {
-  #initialize locale
-  $this->get('locale')->init();
+//Add locale middleware
+$container = $app->getContainer();
+$app->add(new Fccn\WebComponents\LocaleMiddleware($container['locale']));
 
-  $response = $next($request, $response);
-	return $response;
-});
-
-//--- include other middlewares below
+//--- include other middlewares defined in middlewares folder
+foreach (glob("middlewares/*.php") as $filename) {
+    include $filename;
+}
