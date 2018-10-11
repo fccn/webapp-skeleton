@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../cache/e8/e89e08292c8f9a8c535f27cc35054515aa02f38f7b88200566726c12d93205a3.php:46
+#: ../cache/60/6029bca2c9c7f5a8a046cc3bf9ed14bd87c57019c3568d1a8d5d17fbed9791e0.php:46
 msgid "Credits"
 msgstr ""
 
@@ -19,35 +19,49 @@ msgstr ""
 msgid "English flag"
 msgstr ""
 
-#: ../cache/e8/e89e08292c8f9a8c535f27cc35054515aa02f38f7b88200566726c12d93205a3.php:40
+#: ../cache/60/6029bca2c9c7f5a8a046cc3bf9ed14bd87c57019c3568d1a8d5d17fbed9791e0.php:40
 msgid "Help"
 msgstr ""
 
-#: ../cache/0a/0a0a607e9dc21e808133f1dcaaf14c0767b41eeb4b1422fb6c94f4ae1fdbf67f.php:52
+#: ../cache/a4/a49a0968c86a6baf4ab8f543992a5386c2546c97032b38f35c412cb5eda08df5.php:52
 msgid "Home"
 msgstr ""
 
-#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:31
+#: ../cache/74/749a8e9e98858c2e75eee853d60c850e24dd2c243362fc1b19d55cf463435577.php:31
 msgid "Homepage"
 msgstr ""
 
-#: ../cache/f6/f6c41a1289fc1a27203ec17e995073fb877b63dad1d2fc40be3dab03fe0d771e.php:41
+#: ../cache/54/543887765c77d0cf84ddaee0d08de69725dda6e24af0f41035278f44fea4a8e6.php:44
 msgid "Language"
 msgstr ""
 
-#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:51
+#: ../cache/74/749a8e9e98858c2e75eee853d60c850e24dd2c243362fc1b19d55cf463435577.php:51
 msgid "Locale is"
+msgstr ""
+
+#: ../cache/29/2918113df34e779a940547ed58b35a9e8ceb3161994b0cca53f8e91b6ea6f960.php:62
+msgid "More about..."
+msgstr ""
+
+#: ../cache/29/2918113df34e779a940547ed58b35a9e8ceb3161994b0cca53f8e91b6ea6f960.php:58
+msgid "Ok, I accept"
 msgstr ""
 
 #: ../cache/db_dump.php:4
 msgid "Portuguese flag"
 msgstr ""
 
-#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:57
+#: ../cache/29/2918113df34e779a940547ed58b35a9e8ceb3161994b0cca53f8e91b6ea6f960.php:54
+msgid ""
+"The cookies help us to offer this service. By using this service, you accept "
+"the usage of cookies."
+msgstr ""
+
+#: ../cache/74/749a8e9e98858c2e75eee853d60c850e24dd2c243362fc1b19d55cf463435577.php:57
 msgid "This is an example translation with variable, number is %number%"
 msgstr ""
 
-#: ../cache/0b/0b11ad0c208c79838ba2d4ab7f024e0389ef850bb725c264eecb373e7ce4275d.php:39
+#: ../cache/74/749a8e9e98858c2e75eee853d60c850e24dd2c243362fc1b19d55cf463435577.php:39
 msgid "Wellcome"
 msgstr ""
 
